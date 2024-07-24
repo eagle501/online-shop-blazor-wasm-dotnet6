@@ -1,6 +1,7 @@
 ﻿@using OnlineShop.Models
 @using OnlineShop.States
 @inject CartState CartState
+@inject IJSRuntime JSRuntime
 
 <div class="card w-25">
     <div class="card-body">
@@ -9,7 +10,7 @@
         <blockquote class="card-text">$@Product.Price</blockquote>
         @if (DisplayBuyButton)
         {
-            <button class="btn btn-primary" type="button" @onclick="_ => CartState.AddProductToCartAsync(Product.Id)">Buy</button>
+            <button class="btn btn-primary" type="button" @onclick="HandleButtonOnClick">Buy</button>
         }
     </div>
 </div>
@@ -21,4 +22,10 @@
 
     [Parameter]
     public bool DisplayBuyButton { get; set; } = false;
+
+    private async Task HandleButtonOnClick()
+    {
+        await JSRuntime.InvokeVoidAsync("alert", "Product added to cart!");
+        await CartState.AddProductToCartAsync(Product.Id);
+    }
 }
