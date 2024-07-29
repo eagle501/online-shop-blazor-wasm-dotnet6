@@ -1,4 +1,10 @@
 ﻿@inherits LayoutComponentBase
+@using OnlineShop.States
+@using OnlineShop.Utilities
+@inject CartState CartState
+@inject INotificationService NotificationService
+
+
 
 <div class="page">
     <div class="sidebar">
@@ -7,7 +13,14 @@
 
     <main>
         <div class="top-row px-4">
-            <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
+            <div class="page">
+
+                <a href="ShoppingCart" class="btn btn-success" style="font-family:con3;">
+                    <i class="oi oi-cart"></i>&nbsp;Cart
+                    <span class="badge bg-dark">@SelectedItemsCount1</span>
+                </a>
+            </div>
+     
         </div>
 
         <article class="content px-4">
@@ -15,3 +28,20 @@
         </article>
     </main>
 </div>
+
+@code {
+    private int SelectedItemsCount1 { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await NotificationService.Subscribe<CartChangeEvent>(UpdateItemCount);
+        SelectedItemsCount1 = CartState.SelectedItems.Count;
+        await base.OnInitializedAsync();
+    }
+
+    private void UpdateItemCount(CartChangeEvent @event)
+    {
+        SelectedItemsCount1 = @event.Items.Count;
+        StateHasChanged();
+    }
+}

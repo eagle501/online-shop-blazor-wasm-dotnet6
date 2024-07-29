@@ -17,4 +17,12 @@
     </Content>
   </ItemGroup>
 
+  <ItemGroup>
+    <None Remove="Pages\CascadingComponent\" />
+    <None Remove="Utilities\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Pages\CascadingComponent\" />
+    <Folder Include="Utilities\" />
+  </ItemGroup>
 </Project>

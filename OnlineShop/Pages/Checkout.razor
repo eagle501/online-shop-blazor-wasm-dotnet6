@@ -2,39 +2,75 @@
 @using OnlineShop.Models
 @using OnlineShop.Models.Forms
 @using OnlineShop.States
+@using OnlineShop.Shared
+@using OnlineShop.Utilities
 @inject IJSRuntime JSRuntime
 @inject CartState CartState
+@inject INotificationService NotificationService
 
-<h3>Checkout</h3>
-<span>You have @CartState.SelectedItems.Count item(s) in your cart.</span>
-@foreach (var selectedItem in CartState.SelectedItems)
-{
-    <ProductDisplay Product="selectedItem" />
-}
-<EditForm class="vstack gap-3" Model="CheckoutForm" OnValidSubmit="SubmitAsync">
-    <DataAnnotationsValidator></DataAnnotationsValidator>
-    <div>
-        <label class="form-label" for="name">Name:</label>
-        <InputText id="name" class="form-control" @bind-Value="CheckoutForm.Name"></InputText>
-        <ValidationMessage class="form-control" For="()=>CheckoutForm.Name"></ValidationMessage>
-    </div>
+  
+        <h3>Checkout</h3>
+        <span>You have @CartState.SelectedItems.Count item(s) in your cart.</span>
 
-    <div>
-        <label class="form-label" for="address">Address:</label>
-        <InputText id="address" class="form-control" @bind-Value="CheckoutForm.Address"></InputText>
-        <ValidationMessage class="form-control" For="()=>CheckoutForm.Address"></ValidationMessage>
-    </div>
 
-    <div>
-        <button class="btn btn-primary" type="submit">Submit</button>
-    </div>
-</EditForm>
+        @foreach (var selectedItem in CartState.SelectedItems)
+        {
+            <ProductDisplay Product="selectedItem" />
+        }
+        <EditForm class="vstack gap-3" Model="CheckoutForm" OnValidSubmit="SubmitAsync">
+            <DataAnnotationsValidator></DataAnnotationsValidator>
+            <div>
+                <label class="form-label" for="name">Name:</label>
+                <InputText id="name" class="form-control" @bind-Value="CheckoutForm.Name"></InputText>
+                <ValidationMessage class="form-control" For="()=>CheckoutForm.Name"></ValidationMessage>
+            </div>
 
-@code {
-    public CheckoutForm CheckoutForm { get; set; } = new();
+            <div>
+                <label class="form-label" for="address">Address:</label>
+                <InputText id="address" class="form-control" @bind-Value="CheckoutForm.Address"></InputText>
+                <ValidationMessage class="form-control" For="()=>CheckoutForm.Address"></ValidationMessage>
+            </div>
 
-    private async Task SubmitAsync()
-    {
-        await JSRuntime.InvokeVoidAsync("alert", $"Thank you {CheckoutForm.Name}, we will deliver to {CheckoutForm.Address}.");
+            <div>
+                <button class="btn btn-primary" type="submit">Submit</button>
+            </div>
+        </EditForm>
+
+
+
+    @code {
+        public CheckoutForm CheckoutForm { get; set; } = new();
+        private int SelectedItemsCount { get; set; }
+
+        private async Task SubmitAsync()
+        {
+            await JSRuntime.InvokeVoidAsync("alert", $"Thank you {CheckoutForm.Name}, we will deliver to {CheckoutForm.Address}.");
+        }
+
+
     }
-}
+
+    @code {
+
+    }
+
+
+    @code {
+        // Assuming SelectedItemsCount is declared and set properly in this component
+        private int SelectedItemsCount1 { get; set; }
+
+        protected override async Task OnInitializedAsync()
+        {
+            await NotificationService.Subscribe<CartChangeEvent>(UpdateItemCount);
+            SelectedItemsCount1 = CartState.SelectedItems.Count;
+            await base.OnInitializedAsync();
+        }
+
+        private void UpdateItemCount(CartChangeEvent @event)
+        {
+            SelectedItemsCount1 = @event.Items.Count;
+            StateHasChanged();
+        }
+
+    }
+

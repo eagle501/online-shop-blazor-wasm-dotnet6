@@ -1,0 +1,16 @@
+﻿<h3>Parent Component</h3>
+
+<p>Parent testing int: @TestInt</p>
+
+<ChildComponent>
+
+</ChildComponent>
+
+@code {
+    [CascadingParameter]
+    public int TestInt { get; set; }
+
+    [CascadingParameter(Name = "TestIntName")]
+    public int TestIntName { get; set; }
+}
+

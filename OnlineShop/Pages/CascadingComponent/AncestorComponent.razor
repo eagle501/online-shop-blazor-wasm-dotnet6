@@ -1,0 +1,30 @@
+﻿<h3>Ancestor Component</h3>
+
+<p>Ancestor testing int: @TestInt</p>
+
+<CascadingValue Value="@TestInt">
+    <CascadingValue Value="@TestIntName" Name="TestIntName">
+
+        <ParentComponent>
+
+        </ParentComponent>
+
+    </CascadingValue>
+</CascadingValue>
+
+<button class="btn btn-primary" @onclick="IncementCount">Click Here</button>
+
+@code {
+    [CascadingParameter]
+    public int TestInt { get; set; } = 200;
+
+    [CascadingParameter(Name = "TestIntName")]
+    public int TestIntName { get; set; } = 325;
+
+    private void IncementCount()
+    {
+        TestInt++;
+    }
+
+}
+

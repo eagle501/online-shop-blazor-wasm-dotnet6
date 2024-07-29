@@ -1,0 +1,17 @@
+﻿@using OnlineShop.States
+@inject CartState CartState
+
+<span>@ItemCount</span>
+
+@code {
+    [CascadingParameter(Name = "ItemCount")]
+    public int ItemCount { get; set; } // Initialize with a default value if needed
+
+    protected override async Task OnInitializedAsync()
+    {
+        ItemCount = CartState.SelectedItems.Count;
+        await base.OnInitializedAsync();
+    }
+
+}
+
