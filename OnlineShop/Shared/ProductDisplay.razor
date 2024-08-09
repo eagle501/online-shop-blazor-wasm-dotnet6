@@ -3,6 +3,7 @@
 @inject CartState CartState
 @inject IJSRuntime JSRuntime
 
+
 <div class="d-flex justify-content-center align-items-center vh-75">
     <!-- Centering container -->
     <div class="container">
@@ -27,6 +28,8 @@
     </div>
 </div>
 
+
+
 @code {
     [EditorRequired]
     [Parameter]
@@ -44,5 +47,6 @@
         await JSRuntime.InvokeVoidAsync("alert", "Product added to cart!");
         await CartState.AddProductToCartAsync(Product.Id);
     }
+    
 }
 
