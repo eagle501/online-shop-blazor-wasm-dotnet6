@@ -1,0 +1,28 @@
+@font-face {
+    font-family: "Reenie";
+    src: url(fonts/ReenieBeanie-Regular.ttf);
+}
+
+@font-face {
+    font-family: "Rowdies";
+    src: url(fonts/Rowdies-Bold.ttf);
+}
+
+@font-face {
+    font-family: "Rowdies2";
+    src: url(fonts/Rowdies-Light.ttf);
+}
+
+
+
+.payment-title {
+  font-family: "Reenie", sans-serif;
+  font-size: 24px;
+}
+.payment-light-title {
+    font-family: "Rowdies2", Arial, Helvetica, sans-serif;
+    font-size: 24px;
+}
+  
+
+  

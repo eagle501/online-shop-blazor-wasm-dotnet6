@@ -4,73 +4,295 @@
 @using OnlineShop.States
 @using OnlineShop.Shared
 @using OnlineShop.Utilities
+@using OnlineShop.Pages.Paypal
 @inject IJSRuntime JSRuntime
 @inject CartState CartState
 @inject INotificationService NotificationService
-
-  
-        <h3>Checkout</h3>
-        <span>You have @CartState.SelectedItems.Count item(s) in your cart.</span>
+@inject NavigationManager NavigationManager
 
 
-        @foreach (var selectedItem in CartState.SelectedItems)
-        {
-            <ProductDisplay Product="selectedItem" />
-        }
-        <EditForm class="vstack gap-3" Model="CheckoutForm" OnValidSubmit="SubmitAsync">
-            <DataAnnotationsValidator></DataAnnotationsValidator>
-            <div>
-                <label class="form-label" for="name">Name:</label>
-                <InputText id="name" class="form-control" @bind-Value="CheckoutForm.Name"></InputText>
-                <ValidationMessage class="form-control" For="()=>CheckoutForm.Name"></ValidationMessage>
-            </div>
-
-            <div>
-                <label class="form-label" for="address">Address:</label>
-                <InputText id="address" class="form-control" @bind-Value="CheckoutForm.Address"></InputText>
-                <ValidationMessage class="form-control" For="()=>CheckoutForm.Address"></ValidationMessage>
-            </div>
-
-            <div>
-                <button class="btn btn-primary" type="submit">Submit</button>
-            </div>
-        </EditForm>
+<h3>Checkout</h3>
 
 
+
+
+@foreach (var selectedItem in CartState.SelectedItems)
+{
+   
+    <CheckoutDisplay OnQuantityChange="HandleQuantityChange"
+                     TotalPrice="@TotalPriceGet" 
+                     Product="selectedItem" 
+                     DisplayBuyButton="false" 
+                     DisplayRemoveButton="true" 
+                     OnRemoveProduct="@(() => RemoveProductFromCart(selectedItem.Id))" 
+                     TotalPriceChanged="@(e => HandleTotalPriceChanged(e))" />
+                     
+}
+<!--
+<div style="text-align: center;">
+
+    <p>You have @CartState.SelectedItems.Count item(s) in your cart.</p>
+    <p>Total Price: @ShowtotalPrice</p>
+    <p>Total Quantity: @CartState.SelectedItems.Sum(p => p.ItemQuantity)</p>
+    
+</div>
+-->
+<div class="d-flex justify-content-center">
+  <button class="btn btn-success" type="button" @onclick="PaymentPage">Pay Now</button>
+</div>
+
+<!--
+@if(@CartState.SelectedItems.Count != 0)
+{
+    <PayPalButton CheckoutFormName="@CheckoutForm.Name" BoundTotalPrice="@BoundTotalPrice" />
+}
+
+ Quantity is @quantity
+
+<EditForm class="vstack gap-3" Model="CheckoutForm" OnValidSubmit="SubmitAsync">
+    <DataAnnotationsValidator></DataAnnotationsValidator>
+    <div>
+        <label class="form-label" for="name">Name:</label>
+        <InputText id="name" class="form-control" @bind-Value="CheckoutForm.Name"></InputText>
+        <ValidationMessage class="form-control" For="()=>CheckoutForm.Name"></ValidationMessage>
+    </div>
+
+    <div>
+        <label class="form-label" for="address">Address:</label>
+        <InputText id="address" class="form-control" @bind-Value="CheckoutForm.Address"></InputText>
+        <ValidationMessage class="form-control" For="()=>CheckoutForm.Address"></ValidationMessage>
+    </div>
+
+    <div>
+        <button class="btn btn-primary" type="submit">Submit</button>
+    </div>
+</EditForm>
+
+-->
 
     @code {
-        public CheckoutForm CheckoutForm { get; set; } = new();
-        private int SelectedItemsCount { get; set; }
+    private decimal TotalPrice => (decimal)CartState.SelectedItems.Sum(p => p.Price);
+    public CheckoutForm CheckoutForm { get; set; } = new();
+    private int SelectedItemsCount { get; set; }
 
-        private async Task SubmitAsync()
-        {
-            await JSRuntime.InvokeVoidAsync("alert", $"Thank you {CheckoutForm.Name}, we will deliver to {CheckoutForm.Address}.");
-        }
+    private async Task SubmitAsync()
+    {
+        await JSRuntime.InvokeVoidAsync("alert", $"Thank you {CheckoutForm.Name}, we will deliver to {CheckoutForm.Address}.");
+    }
 
 
     }
 
+    
     @code {
 
-    }
-
-
-    @code {
         // Assuming SelectedItemsCount is declared and set properly in this component
-        private int SelectedItemsCount1 { get; set; }
+        private int SelectedItemsCartCount { get; set; }
+
+        public Product Product { get; set; } = new();
+        private decimal BoundTotalPrice { get; set; }
+        public decimal totalPrice;
+        [Parameter]
+        public int quantity {get; set;} = 1;
+
+        private string localStoragePrice {get; set;}
+
+        private void CalculateQty()
+        {
+           totalPrice = @quantity * TotalPrice;
+        }
+
+        private void HandleTotalPriceChanged()
+        {
+            totalPrice = TotalPrice;
+        }
 
         protected override async Task OnInitializedAsync()
         {
             await NotificationService.Subscribe<CartChangeEvent>(UpdateItemCount);
-            SelectedItemsCount1 = CartState.SelectedItems.Count;
+            SelectedItemsCartCount = CartState.SelectedItems.Count;
+            //BoundTotalPrice = TotalPrice;
+            HandleTotalPriceChanged();
+            localStoragePrice = await JSRuntime.InvokeAsync<string>("localStorage.getItem", "TotalPrice");
             await base.OnInitializedAsync();
+            var ResetPrice = 0;
+            await HandleQuantityChangePrice(ResetPrice);
+
         }
 
         private void UpdateItemCount(CartChangeEvent @event)
         {
-            SelectedItemsCount1 = @event.Items.Count;
+            SelectedItemsCartCount = @event.Items.Count;
             StateHasChanged();
         }
 
     }
 
+    @code {
+        private async Task HandleQuantityChangePrice(int newQuantity)
+        {
+            var ResetPrice = 0;
+            // Handle the quantity change here
+            await JSRuntime.InvokeVoidAsync("localStorage.setItem","TotalPrice",ResetPrice);
+            
+        }
+    }
+
+@code {
+    private void RemoveProductFromCart(Guid productId)
+    {
+        CartState.SelectedItems.RemoveAll(p => p.Id == productId);
+        NotificationService.Publish(new CartChangeEvent { Items = CartState.SelectedItems });
+    }
+}
+
+@code {
+    private decimal CalculateTotalPrice()
+    {
+        return (decimal)CartState.SelectedItems.Sum(p => p.Price * p.Quantity);
+    }
+}
+
+@code{
+ /*   protected async override Task OnAfterRenderAsync(bool firstRender)
+    {
+        await JSRuntime.InvokeVoidAsync("initPayPalButton");
+        StateHasChanged();
+    }
+*/
+
+[Inject]
+		public IJSRuntime Js { get; set; }
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+		{
+			try
+			{
+				if (firstRender)
+				{
+					await Js.InvokeVoidAsync("initPayPalButton");
+                    StateHasChanged();
+				}
+			}
+			catch (Exception)
+			{
+				throw;
+			}
+		}
+}
+
+
+
+@code {
+    private void NavigateToPaymentPage()
+    {
+        NavigationManager.NavigateTo("/payment");
+    }
+
+    private void PaymentPage()
+    {
+         NavigationManager.NavigateTo($"/payment?price={CartState.SelectedItems.Sum(p => p.Price)}");
+    }
+}
+
+
+
+
+@code {
+    private bool IsPayPalButtonVisible { get; set; } = false;
+
+    private void TogglePayPalButtonVisibility()
+    {
+        IsPayPalButtonVisible = !IsPayPalButtonVisible;
+    }
+
+    
+}
+
+
+@code {
+    private async Task UpdateTotalPrice(Product product, int quantity)
+    {
+        //product.Quantity = quantity;
+        totalPrice = (decimal)CartState.SelectedItems.Sum(p => p.Price * p.Quantity);
+        StateHasChanged();
+    }
+}
+
+
+@code
+{
+    public event Action<decimal> TotalPriceChanged;
+        private void CalculateTotalPriceCart()
+    {
+        totalPrice = (decimal)Product.Price * quantity;
+        TotalPriceChanged?.Invoke(totalPrice);
+        
+    }
+}
+
+
+
+
+
+
+@code {
+    private decimal TotalPriceGet { get; set; }
+
+    private async Task OnTotalPriceChanged(decimal newTotalPriceGet)
+    {
+        TotalPriceGet = newTotalPriceGet;
+        // Example: Perform additional actions or update UI based on the new total price
+        await Task.Delay(1000); // Simulating an asynchronous operation
+    }
+}
+
+@code{
+    private int TotalQuantityGet {get; set; }
+
+    private async Task OnTotalQuantityChanged(int newTotalQuantityGet)
+    {
+        TotalQuantityGet = newTotalQuantityGet;
+        await Task.Delay(1000);
+    }
+}
+
+@code {
+    private int Qty {get; set;} 
+    private void HandleQuantityChange(int newQuantity)
+    {
+        // Handle the quantity change here
+        Qty = newQuantity;
+    }
+}
+
+@code {
+    private Dictionary<Guid, int> ItemQuantities { get; set; } = new Dictionary<Guid, int>();
+
+    private int TotalQuantity { get; set; }
+
+    private void HandleQuantityChange(Guid itemId, int newQuantity)
+    {
+        
+        //if (ItemQuantities.ContainsKey(itemId))
+        if(false)
+        {
+            TotalQuantity -= ItemQuantities[itemId];
+        }
+        ItemQuantities[itemId] = newQuantity;
+        //TotalQuantity += newQuantity;
+
+    }
+}
+
+
+
+
+@code {
+    private decimal ShowtotalPrice;
+
+    private void HandleTotalPriceChanged(decimal ShowtotalPrice)
+    {
+        this.ShowtotalPrice = ShowtotalPrice;
+        StateHasChanged();
+    }
+}

@@ -4,14 +4,14 @@ using OnlineShop;
 using OnlineShop.States;
 using OnlineShop.Utilities;
 
+
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
 
-
-
 builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
 builder.Services.AddScoped<CartState>();
 builder.Services.AddSingleton<INotificationService, NotificationService>();
+
 
 await builder.Build().RunAsync();

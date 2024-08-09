@@ -1,0 +1,12 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "dotnet",
+			"task": "watch OnlineShop",
+			"file": "/Users/main/Documents/Blazor Tutorial/Web API/online-shop-blazor-wasm-dotnet6/OnlineShop/OnlineShop.csproj",
+			"problemMatcher": [],
+			"label": "dotnet: watch OnlineShop"
+		}
+	]
+}

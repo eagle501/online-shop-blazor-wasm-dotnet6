@@ -1,0 +1,119 @@
+@page "/payment"
+@using OnlineShop.Models
+@using OnlineShop.Models.Forms
+@using OnlineShop.States
+@using OnlineShop.Shared
+@using OnlineShop.Utilities
+@inject IJSRuntime JSRuntime
+@inject CartState CartState
+@inject NavigationManager NavigationManager
+
+
+
+
+
+<div class="text-center payment-light-title">
+    <span>You have @CartState.SelectedItems.Sum(p => p.ItemQuantity) item(s) in your cart.</span>
+    <p>Total Price: @CartState.SelectedItems.Sum(p => p.Price * p.ItemQuantity)</p>
+</div>
+
+
+<div class="text-center payment-light-title">
+    <button type="button" class="btn btn-success" onclick="history.go(-1)">Back To Cart</button>
+</div>
+<div class="container d-flex justify-content-center payment-light-title">
+    <div class="col-md-6">
+        <h4 class="mb-2">Payment Method</h4>
+        <div id="smart-button-container">
+            <input type="hidden" name="descriptionInput" id="description" @bind="@Product.Description" />
+            <input name="amountInput" type="hidden" id="amount" @bind="@PayTotal">
+            <div style="text-align: center; margin-top: 0.625rem;" id="paypal-button-container"></div>
+        </div>
+    </div>
+</div>
+
+
+    @code {
+    private decimal TotalPrice => (decimal)CartState.SelectedItems.Sum(p => p.Price);
+
+    private int SelectedItemsCount { get; set; }
+
+  
+
+    }
+
+    
+    @code {
+
+        // Assuming SelectedItemsCount is declared and set properly in this component
+        private int SelectedItemsCartCount { get; set; }
+
+        private decimal BoundTotalPrice { get; set; }
+
+     
+
+
+    }
+
+
+
+@code{
+
+
+    [Parameter]
+    public Product Product { get; set; } = new();
+    public decimal TotalPayment {get; set;}
+
+  
+
+[Inject]
+		public IJSRuntime Js { get; set; }
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+		{
+			try
+			{
+				if (firstRender)
+				{
+					await Js.InvokeVoidAsync("initPayPalButton");
+                    StateHasChanged();
+				}
+			}
+			catch (Exception)
+			{
+				throw;
+			}
+		}
+         
+}
+
+
+
+@code {
+    private void NavigateToPaymentPage()
+    {
+        NavigationManager.NavigateTo("/PaymentPay");
+    }
+}
+
+
+
+
+
+
+@code {
+    [Parameter]
+    public decimal Price { get; set; }
+    private string localStoragePrice;
+
+    private int PayQuantity { get; set; }
+    private decimal PayTotal { get; set; }
+
+    protected async override void OnInitialized()
+    {
+        Price = decimal.Parse(new Uri(NavigationManager.Uri).Query.Split("=")[1]);
+        PayQuantity = (int)CartState.SelectedItems.Sum(p => p.ItemQuantity);
+        PayTotal = (decimal)CartState.SelectedItems.Sum(p => p.Price * p.ItemQuantity);
+        localStoragePrice = await JSRuntime.InvokeAsync<string>("localStorage.getItem", "PayTotal");
+    }
+}
+

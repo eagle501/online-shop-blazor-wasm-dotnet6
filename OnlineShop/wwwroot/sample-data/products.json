@@ -1,32 +1,42 @@
 [
   {
     "id": "5C50938D-577C-4C12-B8CB-D2BF22842E5A",
-    "name": "Blazor Server .NET 6 Fundamentals",
-    "description": "A beginner's book of Blazor Server website development in .NET 6.",
-    "price": 23.99
+    "name": "Glossier",
+    "description": "Elevate your skincare routine with Glossier's essential beauty collection. This curated set includes six must-have products designed to cleanse, exfoliate, hydrate, protect, and enhance your natural beauty.",
+    "ImageURL": "/Images/Beauty/Beauty1.png",
+    "price": 59.99,
+    "quantity": 9
   },
   {
     "id": "4C18E6CE-BA0A-46D2-88AA-A6C48F0ACB0C",
-    "name": "Blazor WebAssembly .NET 6 Fundamentals",
-    "description": "A beginner's book of Blazor WebAssembly website development in .NET 6.",
-    "price": 23.99
+    "name": "Curology Essential Skincare Trio",
+    "description": "Discover the simplicity of personalized skincare with Curologys essential trio, designed to cater to your unique skin needs. ",
+    "ImageURL": "/Images/Beauty/Beauty2.png",
+    "price": 23.99,
+    "quantity": 10
   },
   {
     "id": "C468DAAE-5190-423E-8ACA-500D21F0F65D",
-    "name": "Blazor Server .NET 6 Advanced",
-    "description": "A good book of Blazor Server website development in .NET 6.",
-    "price": 39.99
+    "name": "CocoOil - Body Oil",
+    "description": "Indulge in the luxurious hydration of CocoOil Body Oil, crafted with 100% organic coconut oil to nourish and rejuvenate your skin. This minimalist, sleek white bottle contains a rich formula that absorbs quickly, leaving your skin feeling soft and radiant without any greasy residue.",
+    "ImageURL": "/Images/Beauty/Beauty3.png",
+    "price": 39.99,
+    "quantity": 10
   },
   {
     "id": "C468D8AE-4190-423E-8BCA-501D21F0F65C",
-    "name": ".NET 6 Advanced",
-    "description": "A good book of Blazor Server website development in .NET 6.",
-    "price": 59.99
+    "name": "Mad About Waves and Curls",
+    "description": "Embrace your natural texture with Schwarzkopf Professional's Mad About Waves & Curls Collection. This set includes four expertly formulated products designed to enhance and define your waves and curls, providing the care and styling support your hair needs.",
+    "ImageURL": "/Images/Beauty/Beauty4.png",
+    "price": 59.99,
+    "quantity": 10
   },
   {
     "id": "EDCEF58E-EF65-4F53-9D1A-CF33AC6F6371",
-    "name": "Blazor WebAssembly .NET 6 Advanced",
-    "description": "A good book of Blazor WebAssembly website development in .NET 6.",
-    "price": 39.99
+    "name": "Luxurious Skincare Collection by Cousin",
+    "description": "Indulge in the ultimate skincare experience with Cousin's premium collection, designed to elevate your beauty routine with elegance and efficacy. This set includes four meticulously crafted products, each housed in sleek black packaging with gold accents, exuding sophistication and luxury.",
+    "ImageURL": "/Images/Beauty/Beauty5.png",
+    "price": 39.99,
+    "quantity": 10
   }
 ]

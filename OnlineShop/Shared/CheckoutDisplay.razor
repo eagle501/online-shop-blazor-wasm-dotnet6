@@ -1,0 +1,196 @@
+@using OnlineShop.Models
+@using OnlineShop.States
+@inject CartState CartState
+@inject IJSRuntime JSRuntime
+
+
+
+<div class="d-flex justify-content-center align-items-center vh-75">
+    <!-- Centering container -->
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-4 mb-4">
+                <div class="card w-100">
+                    <!-- Card content -->
+                    <img src="@Product.ImageURL" class="card-img-top" alt="@Product.Name" />
+                    <h5 class="card-title">@Product.Name</h5>
+                    <p class="card-text">@Product.Description</p>
+                    <blockquote class="card-text">$@Product.Price</blockquote>
+                     <p>Quantity: <input @oninput="UpdateQuantity" type="number" class="form-control" min="1" max="100" value="@Product.ItemQuantity" /></p>
+
+                    @if (DisplayBuyButton)
+                    {
+                        <button class="btn btn-primary" type="button" @onclick="HandleButtonOnClick">Add To Cart</button>
+                    }
+                    @if (DisplayRemoveButton)
+                    {
+                        <button @onclick="RemoveProduct">Remove</button>
+                    }
+                </div>
+            </div>
+            <!-- Add more col-lg-4 divs here for additional cards -->
+        </div>
+    </div>
+</div>
+<!--
+   <div>Current Quantity is @Product.Price.ToString("c")</div> 
+   <p>Product Quantity is: @Product.ItemQuantity</p>
+    
+   <p>TotalPrice is: @TotalPrice</p>
+   
+   -->
+
+
+
+@code {
+    [EditorRequired]
+    [Parameter]
+    public Product Product { get; set; } = new();
+
+    
+
+    [Parameter]
+    public bool DisplayBuyButton { get; set; } = false;
+
+    [Parameter]
+    public bool DisplayRemoveButton { get; set; } = false;
+
+    [Parameter]
+    public decimal TotalPrice { get; set;} = 0;
+    [Parameter]
+    public EventCallback<Guid> OnRemoveProduct { get; set; }
+
+    [Parameter]
+    public int Quantity {get; set;} 
+    private decimal HoldingPrice {get; set;}
+    
+   
+
+    protected override void OnInitialized()
+    {
+
+    }
+
+    private void CalculateTotalPrice()
+    {
+        /*
+        TotalPrice = (decimal)Product.Price;
+        HoldingPrice = TotalPrice;
+        HoldingPrice = HoldingPrice * Quantity;
+        TotalPriceChanged?.Invoke(HoldingPrice);
+        JSRuntime.InvokeVoidAsync("localStorage.setItem","TotalPrice",TotalPrice);
+        HoldingPrice = 0;
+        Product.Quantity = Quantity;
+        */
+        Product.Quantity = 1;
+        TotalPrice = (decimal)Product.Price * Quantity;
+        Product.Quantity = Quantity;
+        
+        
+    }
+
+   
+    private async Task HandleButtonOnClick()
+    {
+        
+        
+        await JSRuntime.InvokeVoidAsync("alert", "Product added to cart!");
+        await CartState.AddProductToCartAsync(Product.Id);
+        
+    }
+    private void RemoveProduct()
+    {
+        OnRemoveProduct.InvokeAsync(Product.Id);
+    }
+    private string localStoragePrice {get; set;} = "";
+
+    private string localStorageGetPrice {get; set;} = "";
+
+    private int Qty {get; set;}
+
+    private int ItemQuantity {get; set;}
+
+    [Parameter]
+    public EventCallback<decimal> TotalPriceChanged { get; set; }
+    
+    
+    [Parameter]
+    public EventCallback<int> OnQuantityChange { get; set; }
+    
+    private async Task CalculateProductTotalPrice()
+    {
+        //Product.ItemQuantity = Quantity;
+        
+        //TotalPrice = (decimal)CartState.SelectedItems.Sum(p => p.Price * p.ItemQuantity);
+        //Qty = CartState.SelectedItems.Sum(p => p.ItemQuantity); 
+        //localStoragePrice = await JSRuntime.InvokeAsync<string>("localStorage.setItem", "TotalPrice", TotalPrice);
+        //localStorageGetPrice = await JSRuntime.InvokeAsync<string>("localStorage.getItem", "TotalPrice");
+        // Notify the component that its state has changed
+        //await OnQuantityChange.InvokeAsync(Quantity);
+        //await TotalPriceChanged.InvokeAsync(TotalPrice);
+        StateHasChanged();
+    }
+}
+
+
+
+
+
+
+
+@code {
+
+
+    
+
+    [Parameter]
+    public int Quantity2 { get; set; } = 1;
+}
+
+@code {
+    private Dictionary<Guid, int> quantities = new Dictionary<Guid, int>();
+
+    private void UpdateQuantity(Guid productId, int quantity)
+    {
+        if (quantities.ContainsKey(productId))
+        {
+            quantities[productId] = quantity;
+        }
+        else
+        {
+            quantities.Add(productId, quantity);
+        }
+    }
+}
+
+
+@code {
+    // Function update the Product.ItemQuantity from input below 
+    // <p>Quantity: <input @oninput="UpdateQuantity" type="number" class="form-control" min="1" max="100" value="@Product.ItemQuantity" /></p>
+        private void UpdateQuantity(ChangeEventArgs e)
+        {
+            if (int.TryParse(e.Value.ToString(), out int quantity))
+        {
+            Product.ItemQuantity = quantity;
+            // ...
+        }
+        else
+        {
+            // Handle the case where the input is not a valid integer
+            // For example, you can display an error message to the user
+        }
+        TotalPrice = 0;
+        foreach (var product in CartState.SelectedItems)
+        {
+            TotalPrice += (decimal)product.Price * product.ItemQuantity;
+        }
+        // Call StateHasChanged to update the UI
+        StateHasChanged();
+        TotalPriceChanged.InvokeAsync(TotalPrice);
+    }
+}
+
+
+
+
+

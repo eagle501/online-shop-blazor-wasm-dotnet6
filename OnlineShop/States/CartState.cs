@@ -33,6 +33,15 @@ public class CartState
             await _notificationService.Publish(new CartChangeEvent { Items = SelectedItems });
         }
     }
+
+    public void RemoveProductFromCart(Guid productId)
+    {
+        SelectedItems.RemoveAll(p => p.Id == productId);
+        _notificationService.Publish(new CartChangeEvent { Items = SelectedItems });
+    }
+  
+
+    
 }
 
 public class CartChangeEvent

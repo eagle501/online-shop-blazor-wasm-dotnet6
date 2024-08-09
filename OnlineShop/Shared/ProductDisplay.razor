@@ -3,15 +3,27 @@
 @inject CartState CartState
 @inject IJSRuntime JSRuntime
 
-<div class="card w-25">
-    <div class="card-body">
-        <h5 class="card-title">@Product.Name</h5>
-        <p class="card-text">@Product.Description</p>
-        <blockquote class="card-text">$@Product.Price</blockquote>
-        @if (DisplayBuyButton)
-        {
-            <button class="btn btn-primary" type="button" @onclick="HandleButtonOnClick">Buy</button>
-        }
+<div class="d-flex justify-content-center align-items-center vh-75">
+    <!-- Centering container -->
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-4 mb-5">
+                <div class="card w-100">
+                    <!-- Card content -->
+                    <img src="@Product.ImageURL" class="card-img-top" alt="@Product.Name" />
+                    <blockquote class="card-text product-description-Bold" style="color:red;">$@Product.Price</blockquote>
+                    <h5 class="card-title product-description-Bold">@Product.Name</h5>
+                    <p class="card-text payment-dicription-title">@Product.Description</p>
+                    <blockquote class="stock-notice">Only @Product.Quantity in Stock!</blockquote>
+                    
+                    @if (DisplayBuyButton)
+                    {
+                        <button class="btn btn-success product-description-Bold" style="font-size: 16px;" type="button" @onclick="HandleButtonOnClick">Add To Cart</button>
+                    }
+                </div>
+            </div>
+            <!-- Add more col-lg-4 divs here for additional cards -->
+        </div>
     </div>
 </div>
 
@@ -23,9 +35,14 @@
     [Parameter]
     public bool DisplayBuyButton { get; set; } = false;
 
+    [Parameter]
+    public bool DisplayRemoveButton { get; set; } = false;
+
     private async Task HandleButtonOnClick()
     {
+        
         await JSRuntime.InvokeVoidAsync("alert", "Product added to cart!");
         await CartState.AddProductToCartAsync(Product.Id);
     }
 }
+

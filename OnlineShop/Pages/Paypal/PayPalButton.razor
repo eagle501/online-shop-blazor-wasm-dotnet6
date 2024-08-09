@@ -1,0 +1,22 @@
+
+<div class="row justify-content-center">
+    <div class="col-md-6 text-center">
+        <h4 class="mb-2">Payment Method</h4>
+        <div id="smart-button-container">
+            <input type="hidden" name="descriptionInput" id="description" @bind="CheckoutFormName" />
+            <input name="amountInput" type="hidden" id="amount" @bind="BoundTotalPrice">
+            <div style="margin-top: 0.625rem;" id="paypal-button-container"></div>
+        </div>
+    </div>
+</div>
+
+
+
+
+@code {
+    [Parameter]
+    public string CheckoutFormName { get; set; }
+
+    [Parameter]
+    public decimal BoundTotalPrice { get; set; }
+}
