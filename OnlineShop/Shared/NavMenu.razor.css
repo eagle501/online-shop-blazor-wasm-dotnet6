@@ -9,6 +9,7 @@
 
 .navbar-brand {
     font-size: 1.1rem;
+    font-family: 'Tillana-Bold', sans-serif;
 }
 
 .oi {
@@ -59,4 +60,14 @@
         /* Never collapse the sidebar for wide screens */
         display: block;
     }
+}
+@font-face {
+    font-family: "Tillana-Bold";
+    src: url('fonts/Tillana-Bold.ttf') format('truetype');
+}
+
+.payment-dicription-title {
+    font-family: "Tillana", Arial, Helvetica, sans-serif;
+    font-size: 15px;
+    font-display: bold;
 }
