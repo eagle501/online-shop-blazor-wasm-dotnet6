@@ -6,7 +6,7 @@
 @inject CartState CartState
 
 <PageTitle>DownSouthSwagg</PageTitle>
-<h3 class="payment-dicription-title">ProductList</h3>
+<h3 class="product-description-bold-large">ProductList</h3>
 @foreach (var product in Products)
 {
     <ProductDisplay Product="product" 
@@ -16,7 +16,7 @@
  
 
     <div class="d-flex justify-content-center">
-      <button class="btn btn-success payment-dicription-title" type="button" @onclick="NavigateToCheckoutPage">Pay Now</button>
+      <button class="btn btn-success product-description-bold-large" type="button" @onclick="NavigateToCheckoutPage">Pay Now</button>
     </div>
 
     <div class="d-flex justify-content-center">

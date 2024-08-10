@@ -8,10 +8,7 @@
     font-size: 24px;
     font-display: bold;
 }
-.product-description-bold {
-    font-family: "Tillana-Bold", Arial, Helvetica, sans-serif;
-    font-size: 24px;
-}
+
 
 /* Pages/Checkout.razor.css */
 
@@ -20,4 +17,9 @@
 .product-description-bold {
     font-family: "Tillana-Bold", Arial, Helvetica, sans-serif;
     font-size: 17px;
+}
+
+.product-description-bold-large {
+    font-family: "Tillana-Bold", Arial, Helvetica, sans-serif;
+    font-size: 24px;
 }

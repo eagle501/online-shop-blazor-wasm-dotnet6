@@ -6,3 +6,24 @@
   'GRAD' 0,
   'opsz' 24
 }
+@font-face {
+    font-family: "Tillana-Bold";
+    src: url('fonts/Tillana-Bold.ttf') format('truetype');
+}
+@font-face {
+    font-family: "Tillana";
+    src: url(fonts/Tillana-Regular.ttf);
+}
+
+.product-description-Bold {
+    font-family: "Tillana-Bold", Arial, Helvetica, sans-serif;
+    font-size: 18px;
+}
+.payment-dicription-title {
+    font-family: "Tillana", Arial, Helvetica, sans-serif;
+    font-size: 14px;
+}
+.stock-notice {
+    font-family: "Tillana-Bold", Arial, Helvetica, sans-serif;
+    color: red;
+}
