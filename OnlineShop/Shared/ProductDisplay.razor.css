@@ -1,6 +1,6 @@
 @font-face {
     font-family: "Tillana";
-    src: url(fonts/Tillana-Regular.ttf);
+    src: url('fonts/Tillana-Regular.ttf') format('truetype');
 }
 
 @font-face {

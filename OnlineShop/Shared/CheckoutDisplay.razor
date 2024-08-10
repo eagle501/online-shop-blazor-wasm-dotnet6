@@ -13,9 +13,10 @@
                 <div class="card w-100">
                     <!-- Card content -->
                     <img src="@Product.ImageURL" class="card-img-top" alt="@Product.Name" />
+                    <hr />
+                    <blockquote class="card-tex stock-notice">$@Product.Price</blockquote>
                     <h5 class="card-title product-description-Bold">@Product.Name</h5>
                     <p class="card-text payment-dicription-title">@Product.Description</p>
-                    <blockquote class="card-tex stock-notice">$@Product.Price</blockquote>
                      <p>Quantity: <input @oninput="UpdateQuantity" type="number" class="form-control" min="1" max="100" value="@Product.ItemQuantity" /></p>
 
                     @if (DisplayBuyButton)

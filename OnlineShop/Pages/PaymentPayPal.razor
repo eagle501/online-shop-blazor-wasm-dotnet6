@@ -11,16 +11,14 @@
 
 
 
-
-<div class="text-center payment-light-title">
-    <span>You have @CartState.SelectedItems.Sum(p => p.ItemQuantity) item(s) in your cart.</span>
-    <p>Total Price: @CartState.SelectedItems.Sum(p => p.Price * p.ItemQuantity)</p>
+<PageTitle>PayPal Payments</PageTitle>
+<div class="text-center mt-2">
+    <span class="payment-light-title">You have @CartState.SelectedItems.Sum(p => p.ItemQuantity) item(s) in your cart.</span>
+    <p class="stock-notice-bold">Total Price: @CartState.SelectedItems.Sum(p => p.Price * p.ItemQuantity)</p>
 </div>
 
+<hr />
 
-<div class="text-center payment-light-title">
-    <button type="button" class="btn btn-success" onclick="history.go(-1)">Back To Cart</button>
-</div>
 <div class="container d-flex justify-content-center payment-light-title">
     <div class="col-md-6">
         <h4 class="mb-2">Payment Method</h4>
@@ -32,6 +30,9 @@
     </div>
 </div>
 
+<div class="text-center payment-light-title">
+    <button type="button" class="btn btn-success payment-light-title" onclick="history.go(-1)">Back To Cart</button>
+</div>
 
     @code {
     private decimal TotalPrice => (decimal)CartState.SelectedItems.Sum(p => p.Price);
