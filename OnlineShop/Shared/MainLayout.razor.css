@@ -79,3 +79,15 @@ main {
         padding-right: 1.5rem !important;
     }
 }
+
+
+@font-face {
+    font-family: "Tillana-Bold";
+    src: url('fonts/Tillana-Bold.ttf') format('truetype');
+}
+
+.payment-dicription-title {
+    font-family: "Tillana", Arial, Helvetica, sans-serif;
+    font-size: 15px;
+    font-display: bold;
+}
