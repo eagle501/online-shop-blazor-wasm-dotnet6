@@ -1,27 +1,41 @@
 ﻿@page "/product-list"
 @using OnlineShop.Models
+@using OnlineShop.States
 @inject HttpClient Http
 @inject NavigationManager NavigationManager
+@inject CartState CartState
 
 <PageTitle>DownSouthSwagg</PageTitle>
 <h3 class="payment-dicription-title">ProductList</h3>
 @foreach (var product in Products)
 {
-    <ProductDisplay Product="product" DisplayBuyButton="true"/>
+    <ProductDisplay Product="product" 
+                    DisplayBuyButton="true"
+                    ItemCountFunction="@ItemCountFunction" />
 }
 
-<div class="d-flex justify-content-center">
-  <button class="btn btn-success payment-dicription-title" type="button" @onclick="NavigateToCheckoutPage">Pay Now</button>
-</div>
+
+    <div class="d-flex justify-content-center">
+      <button class="btn btn-success payment-dicription-title" type="button" @onclick="NavigateToCheckoutPage">Pay Now</button>
+    </div>
+
 @code {
     public List<Product> Products { get; set; } = new();
+    
+    [Parameter]
+    public int ItemCountFunction { get; set;}
+
+    [Parameter]
+    public EventCallback<decimal> TotalPriceChanged { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
         Products = await Http.GetFromJsonAsync<List<Product>>("sample-data/products.json") ?? new();
+            await TotalPriceChanged.InvokeAsync(ItemCountFunction);
     }
     private void NavigateToCheckoutPage()
     {
         NavigationManager.NavigateTo("/checkout");
     }
+
 }

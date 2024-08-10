@@ -19,7 +19,7 @@
                     
                     @if (DisplayBuyButton)
                     {
-                        <button class="btn btn-success product-description-Bold" style="font-size: 16px;" type="button" @onclick="HandleButtonOnClick">Add To Cart</button>
+                       <button class="btn btn-success product-description-Bold" style="font-size: 16px;" type="button" @onclick="UpdateItemCount">Add To Cart</button>
                     }
                 </div>
             </div>
@@ -27,7 +27,7 @@
         </div>
     </div>
 </div>
-
+<p>ItemCountFuntion is: @ItemCountFunction</p>
 
 
 @code {
@@ -41,12 +41,38 @@
     [Parameter]
     public bool DisplayRemoveButton { get; set; } = false;
 
+    [Parameter]
+    public int ItemCountFunction { get; set;}
+
+    [Parameter]
+    public EventCallback<decimal> TotalPriceChanged { get; set; }
+
     private async Task HandleButtonOnClick()
     {
         
         await JSRuntime.InvokeVoidAsync("alert", "Product added to cart!");
+        StateHasChanged();
         await CartState.AddProductToCartAsync(Product.Id);
+        await TotalPriceChanged.InvokeAsync(ItemCountFunction);
+        
     }
+    protected override async Task OnInitializedAsync()
+        {
+            var ItemCountFunction = CartState.SelectedItems.Count;
+            StateHasChanged();
+            await Task.Delay(1000);
+        }
+
+    @code {
+        // ...
     
+        private async void UpdateItemCount()
+        {
+            ItemCountFunction = CartState.SelectedItems.Count;
+            await HandleButtonOnClick();
+            await TotalPriceChanged.InvokeAsync(ItemCountFunction);
+            StateHasChanged();
+        }
+    }
 }
 
