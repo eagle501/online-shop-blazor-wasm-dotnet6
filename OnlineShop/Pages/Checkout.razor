@@ -40,13 +40,13 @@
 @if(CartState.SelectedItems.Count > 0)
 {
     <div class="d-flex justify-content-center">
-    <button class="btn btn-success" type="button" @onclick="PaymentPage">Pay Now</button>
+    <button class="btn btn-success product-description-bold" type="button" @onclick="PaymentPage">Pay Now</button>
     </div>
 }
 @if(CartState.SelectedItems.Count == 0)
 {
     <p>You Cart is Empty</p>
-    <button class="btn btn-success" type="button" @onclick="ProductPage">View Products</button>
+    <button class="btn btn-success product-description-bold" type="button" @onclick="ProductPage">View Products</button>
 }
 <!--
 @if(@CartState.SelectedItems.Count != 0)

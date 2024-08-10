@@ -1,0 +1,23 @@
+@font-face {
+    font-family: "Tillana-Bold";
+    src: url('fonts/Tillana-Bold.ttf') format('truetype');
+}
+
+.payment-dicription-title {
+    font-family: "Tillana", Arial, Helvetica, sans-serif;
+    font-size: 24px;
+    font-display: bold;
+}
+.product-description-bold {
+    font-family: "Tillana-Bold", Arial, Helvetica, sans-serif;
+    font-size: 24px;
+}
+
+/* Pages/Checkout.razor.css */
+
+
+
+.product-description-bold {
+    font-family: "Tillana-Bold", Arial, Helvetica, sans-serif;
+    font-size: 17px;
+}
