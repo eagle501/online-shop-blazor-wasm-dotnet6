@@ -17,6 +17,11 @@
     font-size: 24px;
 }
 
+.payment-light-change {
+    font-family: "Tillana-Bold", Arial, Helvetica, sans-serif;
+    font-size: 16px;
+}
+
 .stock-notice-bold {
     font-family: "Tillana-Bold", Arial, Helvetica, sans-serif;
     color: red;
