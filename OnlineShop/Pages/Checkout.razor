@@ -179,32 +179,7 @@
     }
 }
 
-@code{
- /*   protected async override Task OnAfterRenderAsync(bool firstRender)
-    {
-        await JSRuntime.InvokeVoidAsync("initPayPalButton");
-        StateHasChanged();
-    }
-*/
 
-[Inject]
-		public IJSRuntime Js { get; set; }
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-		{
-			try
-			{
-				if (firstRender)
-				{
-					await Js.InvokeVoidAsync("initPayPalButton");
-                    StateHasChanged();
-				}
-			}
-			catch (Exception)
-			{
-				throw;
-			}
-		}
-}
 
 @code {
     [Parameter]
