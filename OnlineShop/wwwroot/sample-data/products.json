@@ -4,7 +4,7 @@
     "name": "Polo Shirt",
     "description": "Add a pop of color to your wardrobe with this vibrant yellow polo shirt. Featuring a distinctive and eye-catching design, this shirt is adorned with colorful graphics that include red, blue, and white elements.",
     "ImageURL": "/Images/polo1.png",
-    "price": 40.99,
+    "price": 40.00,
     "quantity": 9
   },
   {
@@ -12,7 +12,7 @@
     "name": "Classic Comfort Polo",
     "description": "Infuse your wardrobe with a burst of color with this lively yellow polo shirt. Its unique and striking design is highlighted by vibrant graphics in shades of red, blue, and white.",
     "ImageURL": "/Images/polo2.png",
-    "price": 23.99,
+    "price": 40.00,
     "quantity": 10
   },
   {
@@ -20,7 +20,7 @@
     "name": "Urban Chic Polo",
     "description": "Elevate your style with this classic white Polo Ralph Lauren t-shirt and a striking red and black vertical stripe. Perfect for a sharp, sporty look",
     "ImageURL": "/Images/polo3.png",
-    "price": 39.99,
+    "price": 40.00,
     "quantity": 10
   },
   {
@@ -28,7 +28,7 @@
     "name": "Sporty Elegance Polo",
     "description": "Stand out with this vibrant green Polo shirt. Its classic fit offers a contemporary twist for any casual occasion.",
     "ImageURL": "/Images/polo4.png",
-    "price": 59.99,
+    "price": 40.00,
     "quantity": 10
   },
   {
@@ -36,7 +36,7 @@
     "name": "Timeless Style Polo",
     "description": "Add a pop of color to your wardrobe with this classic white Polo Ralph Lauren t-shirt, featuring a vibrant, rainbow-colored logo. Made with high-quality fabric, this t-shirt combines comfort with the iconic style of the Polo brand.",
     "ImageURL": "/Images/polo5.png",
-    "price": 39.99,
+    "price": 35.00,
     "quantity": 10
   }
 ]
