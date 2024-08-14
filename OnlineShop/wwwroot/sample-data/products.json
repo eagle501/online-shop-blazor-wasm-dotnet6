@@ -21,7 +21,7 @@
     "description": "Elevate your style with this classic white Polo Ralph Lauren t-shirt and a striking red and black vertical stripe. Perfect for a sharp, sporty look",
     "ImageURL": "/Images/polo3.png",
     "price": 40,
-    "quantity": 10
+    "quantity": 23
   },
   {
     "id": "C468D8AE-4190-423E-8BCA-501D21F0F65C",
@@ -29,7 +29,7 @@
     "description": "Stand out with this vibrant green Polo shirt. Its classic fit offers a contemporary twist for any casual occasion.",
     "ImageURL": "/Images/polo4.png",
     "price": 40,
-    "quantity": 10
+    "quantity": 4
   },
   {
     "id": "EDCEF58E-EF65-4F53-9D1A-CF33AC6F6371",
@@ -37,6 +37,6 @@
     "description": "Add a pop of color to your wardrobe with this classic white Polo Ralph Lauren t-shirt, featuring a vibrant, rainbow-colored logo. Made with high-quality fabric, this t-shirt combines comfort with the iconic style of the Polo brand.",
     "ImageURL": "/Images/polo5.png",
     "price": 35,
-    "quantity": 10
+    "quantity": 5
   }
 ]
