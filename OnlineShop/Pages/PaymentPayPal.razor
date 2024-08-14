@@ -31,9 +31,17 @@
 </div>
 
 <div class="text-center payment-light-title">
+    <button @onclick="NavigateToCheckout">Go to Cart</button>
     <button type="button" class="btn btn-success payment-light-title" onclick="history.go(-1)">Back To Cart</button>
 </div>
 
+
+@code {
+    void NavigateToCheckout()
+    {
+        NavigationManager.NavigateTo("/checkout");
+    }
+}
     @code {
     private decimal TotalPrice => (decimal)CartState.SelectedItems.Sum(p => p.Price);
 
