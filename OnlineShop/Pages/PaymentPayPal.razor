@@ -114,7 +114,18 @@
         Price = decimal.Parse(new Uri(NavigationManager.Uri).Query.Split("=")[1]);
         PayQuantity = (int)CartState.SelectedItems.Sum(p => p.ItemQuantity);
         PayTotal = (decimal)CartState.SelectedItems.Sum(p => p.Price * p.ItemQuantity);
-        localStoragePrice = await JSRuntime.InvokeAsync<string>("localStorage.getItem", "PayTotal");
+        await JSRuntime.InvokeVoidAsync("localStorage.setItem","TotalPrice",PayTotal);
+        if(PayTotal == 0)
+        {
+            localStoragePrice = await JSRuntime.InvokeAsync<string>("localStorage.getItem", "PayTotal");
+            if (decimal.TryParse(localStoragePrice, out decimal localStoragePriceDecimal))
+            {
+                PayTotal = localStoragePriceDecimal;
+            }
+            
+            
+        }
+        
     }
 }
 
