@@ -10,6 +10,7 @@
 @inject INotificationService NotificationService
 @inject NavigationManager NavigationManager
 
+
 <PageTitle>Checkout</PageTitle>
 <h3 class="product-description-bold-large">Checkout</h3>
 
@@ -19,15 +20,21 @@
 @foreach (var selectedItem in CartState.SelectedItems)
 {
    
+    
     <CheckoutDisplay OnQuantityChange="HandleQuantityChange"
                      TotalPrice="@TotalPriceGet" 
                      Product="selectedItem" 
                      DisplayBuyButton="false" 
                      DisplayRemoveButton="true" 
                      OnRemoveProduct="@(() => RemoveProductFromCart(selectedItem.Id))" 
-                     TotalPriceChanged="@(e => HandleTotalPriceChanged(e))" />
+                     TotalPriceChanged="@(e => HandleTotalPriceChanged(e))"
+                     ValueQuantityMatch="@ValueQuantityMatch" 
+                     ValueQuantityMatchChanged="@(e => ValueQuantityMatch = e)"
+                     ShowSizeWarning="@ShowSizeWarning" />
                      
 }
+
+
 <!--
 <div style="text-align: center;">
 
@@ -37,6 +44,17 @@
     
 </div>
 -->
+@if(ShowWarningText)
+{
+    <div class="d-flex justify-content-center" style="color: red;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-flag-fill" viewBox="0 0 16 16">
+            <path d="M14.778.085A.5.5 0 0 1 15 .5V8a.5.5 0 0 1-.314.464L14.5 8l.186.464-.003.001-.006.003-.023.009a12 12 0 0 1-.397.15c-.264.095-.631.223-1.047.35-.816.252-1.879.523-2.71.523-.847 0-1.548-.28-2.158-.525l-.028-.01C7.68 8.71 7.14 8.5 6.5 8.5c-.7 0-1.638.23-2.437.477A20 20 0 0 0 3 9.342V15.5a.5.5 0 0 1-1 0V.5a.5.5 0 0 1 1 0v.282c.226-.079.496-.17.79-.26C4.606.272 5.67 0 6.5 0c.84 0 1.524.277 2.121.519l.043.018C9.286.788 9.828 1 10.5 1c.7 0 1.638-.23 2.437-.477a20 20 0 0 0 1.349-.476l.019-.007.004-.002h.001"/>
+        </svg>
+        <i class="bi bi-flag-fill"></i>
+        <p class="product-description-bold">Please Enter Sizes for Your Item(s)</p>
+        <i class="bi bi-flag-fill"></i>
+    </div>
+}
 @if(CartState.SelectedItems.Count > 0)
 {
     <div class="d-flex justify-content-center">
@@ -48,6 +66,7 @@
     <p>You Cart is Empty</p>
     <button class="btn btn-success product-description-bold" type="button" @onclick="ProductPage">View Products</button>
 }
+
 <!--
 @if(@CartState.SelectedItems.Count != 0)
 {
@@ -187,26 +206,60 @@
 		}
 }
 
-
-
 @code {
+    [Parameter]
+    public int ValueQuantity {get; set;}
+
+    [Parameter]
+    public int ValueQuantityMatch { get; set; }
+
+    [Parameter]
+    public EventCallback<int> ValueQuantityMatchChanged { get; set; }
+
+    [Parameter]
+    public int TotalValueQuantityMatchLMS { get; set; }
+
+    [Parameter]
+    public int TotalValueQuantityMatchProduct { get; set; }
+
+    private bool SwitchStatementQuantity {get; set;} = false;
+
+    private int CountTracker { get; set;} = 0;
+
+    private int CountTrackerWatch { get; set;} = 0;
+
     private void NavigateToPaymentPage()
     {
-        NavigationManager.NavigateTo("/payment");
+            NavigationManager.NavigateTo("/payment");  
     }
-
+    private bool ShowSizeWarning = false;
+    private int ClickCounter = 0;
+    private bool ShowWarningText = false;
     private void PaymentPage()
     {
-         NavigationManager.NavigateTo($"/payment?price={CartState.SelectedItems.Sum(p => p.Price)}");
+        ShowSizeWarning = false;
+        if (CartState.SelectedItems.All(p => p.LargeShrit > 0 || p.MediumShrit > 0 || p.SmallShrit > 0))
+        {
+            NavigationManager.NavigateTo($"/payment?price={CartState.SelectedItems.Sum(p => p.Price)}");
+        }
+        else
+        {
+            // Handle the case where not all products have a non-zero shirt size
+            ShowSizeWarning = true;
+            ClickCounter += ClickCounter;
+            ShowWarningText = true;
+        }
+        if(ClickCounter == 2)
+        {
+            ClickCounter = 0;
+            ShowSizeWarning = false;
+        }
     }
     private void ProductPage()
     {
          NavigationManager.NavigateTo("/product-list");
     }
 }
-
-
-
 
 @code {
     private bool IsPayPalButtonVisible { get; set; } = false;
@@ -306,4 +359,5 @@
         this.ShowtotalPrice = ShowtotalPrice;
         StateHasChanged();
     }
+    
 }

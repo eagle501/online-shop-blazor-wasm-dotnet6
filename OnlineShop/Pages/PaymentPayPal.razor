@@ -13,8 +13,8 @@
 
 <PageTitle>PayPal Payments</PageTitle>
 <div class="text-center mt-2">
-    <span class="payment-light-title">You have @CartState.SelectedItems.Sum(p => p.ItemQuantity) item(s) in your cart.</span>
-    <p class="stock-notice-bold">Total Price: @CartState.SelectedItems.Sum(p => p.Price * p.ItemQuantity)</p>
+    <p class="stock-notice-bold">You have @CartState.SelectedItems.Sum(p => p.LargeShrit + p.MediumShrit + p.SmallShrit) item(s) in your cart.</p>
+    <p class="stock-notice-bold">Total After Quantity Price: @CartState.SelectedItems.Sum(p => p.Price * (p.LargeShrit + p.MediumShrit + p.SmallShrit))</p>
 </div>
 
 <hr />

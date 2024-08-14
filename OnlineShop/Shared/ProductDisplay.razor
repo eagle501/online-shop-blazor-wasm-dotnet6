@@ -11,8 +11,8 @@
             <div class="col-lg-4 mb-5">
                 <div class="card w-100">
                     <!-- Card content -->
-                    <img src="@Product.ImageURL" class="card-img-top" alt="@Product.Name" />
-                    <hr />
+                    <img src="@Product.ImageURL" class="card-img-top img-fluid" alt="@Product.Name" />
+                    
                     <blockquote class="card-text product-description-Bold" style="color:red;">$@Product.Price</blockquote>
                     <h5 class="card-title product-description-Bold">@Product.Name</h5>
                     <p class="card-text payment-dicription-title">@Product.Description</p>
@@ -51,7 +51,7 @@
     private async Task HandleButtonOnClick()
     {
         
-        await JSRuntime.InvokeVoidAsync("alert", "Product added to cart!");
+        await JSRuntime.InvokeVoidAsync("alert", "Product added to cart!", "Titllana-Bold");
         StateHasChanged();
         await CartState.AddProductToCartAsync(Product.Id);
         await TotalPriceChanged.InvokeAsync(ItemCountFunction);

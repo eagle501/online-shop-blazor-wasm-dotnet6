@@ -1,41 +1,41 @@
 [
   {
     "id": "5C50938D-577C-4C12-B8CB-D2BF22842E5A",
-    "name": "Glossier",
-    "description": "Elevate your skincare routine with Glossier's essential beauty collection. This curated set includes six must-have products designed to cleanse, exfoliate, hydrate, protect, and enhance your natural beauty.",
-    "ImageURL": "/Images/Beauty/Beauty1.png",
-    "price": 59.99,
+    "name": "Polo Shirt",
+    "description": "Add a pop of color to your wardrobe with this vibrant yellow polo shirt. Featuring a distinctive and eye-catching design, this shirt is adorned with colorful graphics that include red, blue, and white elements.",
+    "ImageURL": "/Images/polo1.png",
+    "price": 40.99,
     "quantity": 9
   },
   {
     "id": "4C18E6CE-BA0A-46D2-88AA-A6C48F0ACB0C",
-    "name": "Curology Essential Skincare Trio",
-    "description": "Discover the simplicity of personalized skincare with Curologys essential trio, designed to cater to your unique skin needs. ",
-    "ImageURL": "/Images/Beauty/Beauty2.png",
+    "name": "Classic Comfort Polo",
+    "description": "Infuse your wardrobe with a burst of color with this lively yellow polo shirt. Its unique and striking design is highlighted by vibrant graphics in shades of red, blue, and white.",
+    "ImageURL": "/Images/polo2.png",
     "price": 23.99,
     "quantity": 10
   },
   {
     "id": "C468DAAE-5190-423E-8ACA-500D21F0F65D",
-    "name": "CocoOil - Body Oil",
-    "description": "Indulge in the luxurious hydration of CocoOil Body Oil, crafted with 100% organic coconut oil to nourish and rejuvenate your skin. This minimalist, sleek white bottle contains a rich formula that absorbs quickly, leaving your skin feeling soft and radiant without any greasy residue.",
-    "ImageURL": "/Images/Beauty/Beauty3.png",
+    "name": "Urban Chic Polo",
+    "description": "Elevate your style with this classic white Polo Ralph Lauren t-shirt and a striking red and black vertical stripe. Perfect for a sharp, sporty look",
+    "ImageURL": "/Images/polo3.png",
     "price": 39.99,
     "quantity": 10
   },
   {
     "id": "C468D8AE-4190-423E-8BCA-501D21F0F65C",
-    "name": "Mad About Waves and Curls",
-    "description": "Embrace your natural texture with Schwarzkopf Professional's Mad About Waves & Curls Collection. This set includes four expertly formulated products designed to enhance and define your waves and curls, providing the care and styling support your hair needs.",
-    "ImageURL": "/Images/Beauty/Beauty4.png",
+    "name": "Sporty Elegance Polo",
+    "description": "Stand out with this vibrant green Polo shirt. Its classic fit offers a contemporary twist for any casual occasion.",
+    "ImageURL": "/Images/polo4.png",
     "price": 59.99,
     "quantity": 10
   },
   {
     "id": "EDCEF58E-EF65-4F53-9D1A-CF33AC6F6371",
-    "name": "Luxurious Skincare Collection by Cousin",
-    "description": "Indulge in the ultimate skincare experience with Cousin's premium collection, designed to elevate your beauty routine with elegance and efficacy. This set includes four meticulously crafted products, each housed in sleek black packaging with gold accents, exuding sophistication and luxury.",
-    "ImageURL": "/Images/Beauty/Beauty5.png",
+    "name": "Timeless Style Polo",
+    "description": "Add a pop of color to your wardrobe with this classic white Polo Ralph Lauren t-shirt, featuring a vibrant, rainbow-colored logo. Made with high-quality fabric, this t-shirt combines comfort with the iconic style of the Polo brand.",
+    "ImageURL": "/Images/polo5.png",
     "price": 39.99,
     "quantity": 10
   }

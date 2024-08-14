@@ -2,8 +2,7 @@
 @using OnlineShop.States
 @inject CartState CartState
 @inject IJSRuntime JSRuntime
-
-
+<link rel="stylesheet" href="/flash.css" />
 
 <div class="d-flex justify-content-center align-items-center vh-75">
     <!-- Centering container -->
@@ -12,13 +11,125 @@
             <div class="col-lg-4 mb-4">
                 <div class="card w-100">
                     <!-- Card content -->
+                    <EditForm Model="@Product" OnValidSubmit="@HandleButtonOnClick">
                     <img src="@Product.ImageURL" class="card-img-top" alt="@Product.Name" />
                     <hr />
                     <blockquote class="card-tex stock-notice">$@Product.Price</blockquote>
-                    <h5 class="card-title product-description-Bold">@Product.Name</h5>
-                    <p class="card-text payment-dicription-title">@Product.Description</p>
-                     <p>Quantity: <input @oninput="UpdateQuantity" type="number" class="form-control" min="1" max="100" value="@Product.ItemQuantity" /></p>
+                    @if(ClickOptionSelecterDisplay || ClickOptionSelecterLarge || ClickOptionSelecterMedium || ClickOptionSelecterSmall)
+                    {
+                        <h5 class="card-title product-description-Bold">@Product.Name</h5>
+                        <span class="product-description-Bold" style="font-size: 17px;">Please Enter Quantity:</span><br/>
+                    }
+                    @if(ShowSizeWarning && Product.LargeShrit == 0 && Product.MediumShrit == 0 && Product.SmallShrit == 0)
+                    {
+                        <div style="color: red;">
+                            
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-flag-fill" viewBox="0 0 16 16">
+                                <path d="M14.778.085A.5.5 0 0 1 15 .5V8a.5.5 0 0 1-.314.464L14.5 8l.186.464-.003.001-.006.003-.023.009a12 12 0 0 1-.397.15c-.264.095-.631.223-1.047.35-.816.252-1.879.523-2.71.523-.847 0-1.548-.28-2.158-.525l-.028-.01C7.68 8.71 7.14 8.5 6.5 8.5c-.7 0-1.638.23-2.437.477A20 20 0 0 0 3 9.342V15.5a.5.5 0 0 1-1 0V.5a.5.5 0 0 1 1 0v.282c.226-.079.496-.17.79-.26C4.606.272 5.67 0 6.5 0c.84 0 1.524.277 2.121.519l.043.018C9.286.788 9.828 1 10.5 1c.7 0 1.638-.23 2.437-.477a20 20 0 0 0 1.349-.476l.019-.007.004-.002h.001"/>
+                            </svg>
+                            <i class="bi bi-flag-fill"></i>
+                            <span class="product-description-Bold flash" style="font-size: 17px;">Please Select Size(s):</span>
+                        </div>
+                    }
+                
+                    <div class="checkbox-container">
+                        @if(ClickOptionSelecterLarge)
+                        {
+                            <label for="vehicle1" class="product-description-Bold" style="font-size: 15px;"> Large</label>
+                            <input type="checkbox" id="vehicle1" name="vehicle1" value="Large" @onchange="OnLargeCheckboxChanged" />
+                        }
+                    </div>
+                    <div class="checkbox-container">
+                        @if(ClickOptionSelecterMedium)
+                        {
+                            <label for="vehicle2" class="product-description-Bold" style="font-size: 15px;"> Medium</label>
+                            <input type="checkbox" id="vehicle2" name="vehicle2" value="Medium" @onchange="OnMediumCheckboxChanged" />
+                            <br>
+                        }
+                    </div>
+                    <div class="checkbox-container">
+                        @if(ClickOptionSelecterSmall)
+                        {
+                            <label for="vehicle3" class="product-description-Bold" style="font-size: 15px;"> Small</label>
+                            <input type="checkbox" id="vehicle3" name="vehicle3" value="Small" @onchange="OnSmallCheckboxChanged" />
+                            <br>
+                        }
+                    </div>
+                    
+                    @if(isLargeChecked)
+                    {
+                        <label for="large" class="product-description-Bold" style="font-size: 15px;">Large:</label>
+                        <input type="number" id="large" name="Large" min="1" max="50" value="@Product.LargeShrit" @onchange="UpdateLargeQuantity" />
+                        <br/>
+                    }
+                    @if(isMediumChecked)
+                    {
+                        <label for="medium" class="product-description-Bold" style="font-size: 15px;">Medium:</label>
+                        <input type="number" id="medium" name="Medium" min="1" max="50" value="@Product.MediumShrit" @onchange="UpdateMediumQuantity" />
+                        <br/>
+                    }
+                    @if(isSmallChecked)
+                    {
+                        <label for="small" class="product-description-Bold" style="font-size: 15px;">Small:</label>
+                        <input type="number" id="small" name="Small" min="1" max="50" value="@Product.SmallShrit" @onchange="UpdateSmallQuantity" />
+                        <br/>
+                    }
 
+                    @if(Product.LargeShrit > 0 || Product.MediumShrit > 0 || Product.SmallShrit > 0)
+                    {
+                        <br/>
+                        <span  class="product-description-Bold" style="font-size: 17px;">Size(s) selected for this item:</span><br/>
+                    }
+                    @if(Product.LargeShrit > 0)
+                    {
+                        <span class="product-description-Bold" style="color: red; font-size: 17px;">@Product.LargeShrit Large Shirt(s)</span><br />
+                    }
+                    @if(Product.MediumShrit > 0)
+                    {
+                        <span class="product-description-Bold" style="color: red; font-size: 17px;">@Product.MediumShrit Medium Shirt(s)</span><br />
+                    }
+                    @if(Product.SmallShrit > 0)
+                    {
+                        <span class="product-description-Bold" style="color: red; font-size: 17px;">@Product.SmallShrit Small Shirt(s)</span><br />
+                    }
+                    <!--
+                    @if (isLargeChecked || isMediumChecked || isSmallChecked)
+                    {
+                        <button @onclick="isLargeChecked && isMediumChecked && isSmallChecked ? OnClickAll : (isLargeChecked ? OnClickLarge : (isMediumChecked ? OnClickMedium : (isSmallChecked ? OnClickSmall : null)))">Edit Quantity</button>
+                    }
+                    -->
+                    </EditForm>
+                    <!--
+                    @if(isLargeChecked)
+                    {
+                        <button @onclick="OnClickLarge">Edit Quantity</button>
+                    }
+                    @if(isMediumChecked)
+                    {
+                        <button @onclick="OnClickMedium">Edit Quantity</button>
+                    }
+                    @if(isSmallChecked)
+                    {
+                        <button @onclick="OnClickSmall">Edit Quantity</button>
+                    }
+                    -->
+                    @if (isSmallChecked || isMediumChecked || isLargeChecked)
+                    {
+                     }
+                    else
+                    {
+                       // <p>Quantity: <input @oninput="UpdateQuantity" type="number" class="form-control" min="1" max="100" value="@Product.ItemQuantity" /></p>
+                    
+                    }
+                     @if(isLargeChecked || isMediumChecked || isSmallChecked)
+                    {
+                        <br/>
+                        <button class="btn btn-primary" type="button" @onclick="SizeDisplaySelecter">Done</button>
+                    }
+                    @if(ClickOptionSelecterDisplayOn)
+                    {
+                        <button class="btn btn-primary" type="button" @onclick="SizeDisplaySelecterOn">Edit Size(s)</button>
+                    }
                     @if (DisplayBuyButton)
                     {
                         <button class="btn btn-primary" type="button" @onclick="HandleButtonOnClick">Add To Cart</button>
@@ -27,6 +138,8 @@
                     {
                         <button @onclick="RemoveProduct">Remove</button>
                     }
+                    
+                    
                 </div>
             </div>
             <!-- Add more col-lg-4 divs here for additional cards -->
@@ -48,8 +161,6 @@
     [Parameter]
     public Product Product { get; set; } = new();
 
-    
-
     [Parameter]
     public bool DisplayBuyButton { get; set; } = false;
 
@@ -58,19 +169,43 @@
 
     [Parameter]
     public decimal TotalPrice { get; set;} = 0;
+
     [Parameter]
     public EventCallback<Guid> OnRemoveProduct { get; set; }
+    
+
 
     [Parameter]
     public int Quantity {get; set;} 
     private decimal HoldingPrice {get; set;}
-    
-   
+
+    private bool ClickOptionSelecterLarge { get; set; }
+    private bool ClickOptionSelecterMedium { get; set; }
+    private bool ClickOptionSelecterSmall { get; set; }
+
+    private bool ClickOptionSelecterSize { get; set; }
+    private bool ClickOptionSelecterDisplay { get; set; }
+
+    private bool ClickOptionSelecterDisplayOn { get; set; }
+    private bool IsSmallChecked { get; set; }
+    private bool IsMediumChecked { get; set; }
+    private bool IsLargeChecked { get; set; }
 
     protected override void OnInitialized()
     {
+        
 
+        ClickOptionSelecterLarge = true;
+        ClickOptionSelecterMedium = true;
+        ClickOptionSelecterSmall = true;
+        isLargeChecked = false;
+        isMediumChecked = false;
+        isSmallChecked = false;
+        ClickOptionSelecterDisplay = true;
+        ClickOptionSelecterDisplayOn = false;
+        
     }
+
 
     private void CalculateTotalPrice()
     {
@@ -99,9 +234,37 @@
         await CartState.AddProductToCartAsync(Product.Id);
         
     }
+    private void SizeDisplaySelecter()
+    {
+        ClickOptionSelecterDisplayOn = true;
+        ClickOptionSelecterDisplay = false;
+        ClickOptionSelecterLarge = false;
+        ClickOptionSelecterMedium = false;
+        ClickOptionSelecterSmall = false;
+        isLargeChecked = false;
+        isMediumChecked = false;
+        isSmallChecked = false;
+        StateHasChanged();
+    }
+     private void SizeDisplaySelecterOn()
+    {
+        ClickOptionSelecterDisplayOn = false;
+        ClickOptionSelecterDisplay = true;
+        ClickOptionSelecterLarge = true;
+        ClickOptionSelecterMedium = true;
+        ClickOptionSelecterSmall = true;
+        isLargeChecked = true;
+        isMediumChecked = true;
+        isSmallChecked = true;
+        StateHasChanged();
+    }
+
     private void RemoveProduct()
     {
         OnRemoveProduct.InvokeAsync(Product.Id);
+        Product.LargeShrit = 0;
+        Product.MediumShrit = 0;
+        Product.SmallShrit = 0;
     }
     private string localStoragePrice {get; set;} = "";
 
@@ -133,17 +296,7 @@
     }
 }
 
-
-
-
-
-
-
 @code {
-
-
-    
-
     [Parameter]
     public int Quantity2 { get; set; } = 1;
 }
@@ -191,7 +344,167 @@
     }
 }
 
+@code {
+    [Parameter]
+    public EventCallback<int> OnQuantityTotalLarge { get; set; }
+    [Parameter]
+    public EventCallback<int> OnQuantityTotalMedium { get; set; }
+    [Parameter]
+    public EventCallback<int> OnQuantityTotalSmall { get; set; }
+
+    private async Task UpdateLargeQuantity(ChangeEventArgs e)
+    {
+        isLargeChecked = true;
+        if (int.TryParse(e.Value.ToString(), out int quantity))
+        {
+            Product.LargeShrit = quantity;
+            await OnQuantityTotalLarge.InvokeAsync(quantity);
+            StateHasChanged();
+        }
+    }
+
+    private async Task UpdateMediumQuantity(ChangeEventArgs e)
+    {
+        isMediumChecked = true;
+        if (int.TryParse(e.Value.ToString(), out int quantity))
+        {
+            Product.MediumShrit = quantity;
+            await OnQuantityTotalMedium.InvokeAsync(Product.MediumShrit);
+            StateHasChanged();
+        }
+    }
+
+    private async Task UpdateSmallQuantity(ChangeEventArgs e)
+    {
+        isSmallChecked = true;
+        if (int.TryParse(e.Value.ToString(), out int quantity))
+        {
+            Product.SmallShrit = quantity;
+            await OnQuantityTotalSmall.InvokeAsync(Product.SmallShrit);
+            StateHasChanged();
+        }
+    }
+}
+
+@code {
+    private bool isLargeChecked = false;
+    private bool isMediumChecked = false;
+    private bool isSmallChecked = false;
+    private bool isButtonClicked = false;
+
+    private async Task OnLargeCheckboxChanged(ChangeEventArgs e)
+    {
+        ClickOptionSelecterLarge = false;
+        ValueQuantityMatch = CartState.SelectedItems.Sum(p => p.LargeShrit + p.MediumShrit + p.SmallShrit);
+        isLargeChecked = true;
+        var cardItemId = Product.Id;
+        
+        // Sets the value equal to 1 on click
+        if (isLargeChecked && Product.LargeShrit == 0)
+        {
+            Product.LargeShrit = 1;
+        }
+        StateHasChanged();
+     
+        
+    }
+    private async Task OnMediumCheckboxChanged(ChangeEventArgs e)
+    {
+        ClickOptionSelecterMedium = false;
+        isMediumChecked = true;
+        var cardItemId = Product.Id;
+        
+        // Sets the value equal to 1 on click
+        if (isMediumChecked && Product.MediumShrit == 0)
+        {
+            Product.MediumShrit = 1;
+        }
+        StateHasChanged();
+    }
+    private async Task OnSmallCheckboxChanged(ChangeEventArgs e)
+    {
+        ClickOptionSelecterSmall = false;
+        isSmallChecked = true;
+        var cardItemId = Product.Id;
+        
+        // Sets the value equal to 1 on click
+        if (isSmallChecked && Product.SmallShrit == 0)
+        {
+            Product.SmallShrit = 1;
+        }
+        StateHasChanged();
+    }
+
+}
+
+@code {
+    private bool IsClicked = false;
+    private bool IsClickedMedium = false;
+    private bool IsClickedSmall = false;
+
+    private void OnClickLarge()
+    {
+        IsClicked = true;
+        // Add your logic here
+    }
+    private void OnClickMedium()
+    {
+        IsClickedMedium = true;
+        // Add your logic here
+    }
+    private void OnClickSmall()
+    {
+        IsClickedSmall = true;
+        // Add your logic here
+    }
+}
+
+@code {
+    private void OnClickAll()
+    {
+        OnClickLarge();
+        OnClickMedium();
+        OnClickSmall();
+    }
+}
+@code {
+    [Parameter]
+    public int ValueQuantityMatch { get; set; }
+
+    [Parameter]
+    public EventCallback<int> ValueQuantityMatchChanged { get; set; }
+}
+
+@code {
+    private List<int> LargeShritValues = new List<int>();
+    private List<int> MediumShritValues = new List<int>();
+    private List<int> SmallShritValues = new List<int>();
+    private List<int> ProductIdStore = new List<int>();
+    
+    private void StoreLargeShritValues()
+    {
+        LargeShritValues.Clear();
+        MediumShritValues.Clear();
+        SmallShritValues.Clear();
+        ProductIdStore.Clear();
+        foreach (var selectedItem in CartState.SelectedItems)
+        {
+            ProductIdStore.Add(selectedItem.Id.GetHashCode());
+            LargeShritValues.Add(selectedItem.LargeShrit);
+            MediumShritValues.Add(selectedItem.MediumShrit);
+            SmallShritValues.Add(selectedItem.SmallShrit);
+        }
+    }
+}
 
 
+@code {
+    [Parameter]
+    public bool ShowSizeWarning { get; set; }
 
-
+    protected override void OnParametersSet()
+    {
+        // Update the component state when the ShowSizeWarning parameter changes
+        StateHasChanged();
+    }
+}

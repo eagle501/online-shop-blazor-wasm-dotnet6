@@ -23,8 +23,23 @@
     font-family: "Tillana", Arial, Helvetica, sans-serif;
     font-size: 14px;
 }
+.card-table-title {
+    font-family: "Tillana-Bold", Arial, Helvetica;
+    font-size: 14px;
+    color: red;
+}
 .stock-notice {
     font-family: "Tillana-Bold", Arial, Helvetica, sans-serif;
     color: red;
     font-size: 24px;
 }
+
+.checkbox-container {
+  display: flex;
+  align-items: center;
+}
+
+.checkbox-container input[type="checkbox"] {
+  margin-right: 5px;
+}
+
