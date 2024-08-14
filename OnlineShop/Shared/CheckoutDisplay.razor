@@ -65,13 +65,13 @@
                     @if(isMediumChecked)
                     {
                         <label for="medium" class="product-description-Bold" style="font-size: 15px;">Medium:</label>
-                        <input type="range" min="1" max="100" value="@Product.MediumShrit" @oninput="UpdateMediumQuantity" />
+                        <input type="range" min="1" max="20" value="@Product.MediumShrit" @oninput="UpdateMediumQuantity" />
                         <br/>
                     }
                     @if(isSmallChecked)
                     {
                         <label for="small" class="product-description-Bold" style="font-size: 15px;">Small:</label>
-                        <input type="range" min="1" max="100" value="@Product.SmallShrit" @oninput="UpdateSmallQuantity" />
+                        <input type="range" min="1" max="20" value="@Product.SmallShrit" @oninput="UpdateSmallQuantity" />
                         <br/>
                     }
 
