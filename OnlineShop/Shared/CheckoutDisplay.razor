@@ -31,7 +31,23 @@
                             <span class="product-description-Bold flash" style="font-size: 17px;">Please Select Size(s):</span>
                         </div>
                     }
-                
+                    @if(Product.LargeShrit > 0 || Product.MediumShrit > 0 || Product.SmallShrit > 0)
+                    {
+                        <br/>
+                        <span  class="product-description-Bold" style="font-size: 17px;">Size(s) selected for this item:</span><br/>
+                    }
+                    @if(Product.LargeShrit > 0)
+                    {
+                        <span class="product-description-Bold" style="color: red; font-size: 17px;">@Product.LargeShrit Large Shirt(s)</span><br />
+                    }
+                    @if(Product.MediumShrit > 0)
+                    {
+                        <span class="product-description-Bold" style="color: red; font-size: 17px;">@Product.MediumShrit Medium Shirt(s)</span><br />
+                    }
+                    @if(Product.SmallShrit > 0)
+                    {
+                        <span class="product-description-Bold" style="color: red; font-size: 17px;">@Product.SmallShrit Small Shirt(s)</span><br />
+                    }
                     <div class="checkbox-container">
                         @if(ClickOptionSelecterLarge)
                         {
@@ -55,23 +71,7 @@
                             <br>
                         }
                     </div>
-                     @if(Product.LargeShrit > 0 || Product.MediumShrit > 0 || Product.SmallShrit > 0)
-                    {
-                        <br/>
-                        <span  class="product-description-Bold" style="font-size: 17px;">Size(s) selected for this item:</span><br/>
-                    }
-                    @if(Product.LargeShrit > 0)
-                    {
-                        <span class="product-description-Bold" style="color: red; font-size: 17px;">@Product.LargeShrit Large Shirt(s)</span><br />
-                    }
-                    @if(Product.MediumShrit > 0)
-                    {
-                        <span class="product-description-Bold" style="color: red; font-size: 17px;">@Product.MediumShrit Medium Shirt(s)</span><br />
-                    }
-                    @if(Product.SmallShrit > 0)
-                    {
-                        <span class="product-description-Bold" style="color: red; font-size: 17px;">@Product.SmallShrit Small Shirt(s)</span><br />
-                    }
+                     
                     
                     @if(isLargeChecked)
                     {
@@ -122,23 +122,7 @@
                        // <p>Quantity: <input @oninput="UpdateQuantity" type="number" class="form-control" min="1" max="100" value="@Product.ItemQuantity" /></p>
                     
                     }
-                     @if(isLargeChecked || isMediumChecked || isSmallChecked)
-                    {
-                        <br/>
-                        <button class="btn btn-primary" type="button" @onclick="SizeDisplaySelecter">Done</button>
-                    }
-                    @if(ClickOptionSelecterDisplayOn)
-                    {
-                        <button class="btn btn-primary" type="button" @onclick="SizeDisplaySelecterOn">Edit Size(s)</button>
-                    }
-                    @if (DisplayBuyButton)
-                    {
-                        <button class="btn btn-primary" type="button" @onclick="HandleButtonOnClick">Add To Cart</button>
-                    }
-                    @if (DisplayRemoveButton)
-                    {
-                        <button @onclick="RemoveProduct">Remove</button>
-                    }
+                     
                     
                     
                 </div>
