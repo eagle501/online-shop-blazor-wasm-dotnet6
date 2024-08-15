@@ -55,6 +55,23 @@
                             <br>
                         }
                     </div>
+                     @if(Product.LargeShrit > 0 || Product.MediumShrit > 0 || Product.SmallShrit > 0)
+                    {
+                        <br/>
+                        <span  class="product-description-Bold" style="font-size: 17px;">Size(s) selected for this item:</span><br/>
+                    }
+                    @if(Product.LargeShrit > 0)
+                    {
+                        <span class="product-description-Bold" style="color: red; font-size: 17px;">@Product.LargeShrit Large Shirt(s)</span><br />
+                    }
+                    @if(Product.MediumShrit > 0)
+                    {
+                        <span class="product-description-Bold" style="color: red; font-size: 17px;">@Product.MediumShrit Medium Shirt(s)</span><br />
+                    }
+                    @if(Product.SmallShrit > 0)
+                    {
+                        <span class="product-description-Bold" style="color: red; font-size: 17px;">@Product.SmallShrit Small Shirt(s)</span><br />
+                    }
                     
                     @if(isLargeChecked)
                     {
@@ -75,23 +92,7 @@
                         <br/>
                     }
 
-                    @if(Product.LargeShrit > 0 || Product.MediumShrit > 0 || Product.SmallShrit > 0)
-                    {
-                        <br/>
-                        <span  class="product-description-Bold" style="font-size: 17px;">Size(s) selected for this item:</span><br/>
-                    }
-                    @if(Product.LargeShrit > 0)
-                    {
-                        <span class="product-description-Bold" style="color: red; font-size: 17px;">@Product.LargeShrit Large Shirt(s)</span><br />
-                    }
-                    @if(Product.MediumShrit > 0)
-                    {
-                        <span class="product-description-Bold" style="color: red; font-size: 17px;">@Product.MediumShrit Medium Shirt(s)</span><br />
-                    }
-                    @if(Product.SmallShrit > 0)
-                    {
-                        <span class="product-description-Bold" style="color: red; font-size: 17px;">@Product.SmallShrit Small Shirt(s)</span><br />
-                    }
+                   
                     <!--
                     @if (isLargeChecked || isMediumChecked || isSmallChecked)
                     {
