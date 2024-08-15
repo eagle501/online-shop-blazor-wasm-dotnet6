@@ -19,6 +19,10 @@
     font-size: 17px;
 }
 
+.product-description-display {
+    font-family: "Tillana", Arial, Helvetica, sans-serif;
+    font-size: 17px;
+}
 .product-description-bold-large {
     font-family: "Tillana-Bold", Arial, Helvetica, sans-serif;
     font-size: 24px;
