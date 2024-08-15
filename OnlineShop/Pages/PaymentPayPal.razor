@@ -16,14 +16,13 @@
     <p class="payment-light-change">You have @CartState.SelectedItems.Sum(p => p.LargeShrit + p.MediumShrit + p.SmallShrit) item(s) in your cart.</p>
     <p class="payment-light-change">Total After Quantity Price: $@CartState.SelectedItems.Sum(p => p.Price * (p.LargeShrit + p.MediumShrit + p.SmallShrit))</p>
 </div>
-
 <hr />
 
 <div class="container d-flex justify-content-center payment-light-title">
     <div class="col-md-6">
         <h4 class="mb-2">Payment Method</h4>
         <div id="smart-button-container">
-            <input type="hidden" name="descriptionInput" id="description" @bind="@Product.Description" />
+            <input type="hidden" name="descriptionInput" id="description" @bind="@UserIdPayPal" />
             <input name="amountInput" type="hidden" id="amount" @bind="@PayTotal">
             <div style="text-align: center; margin-top: 0.625rem;" id="paypal-button-container"></div>
         </div>
@@ -72,6 +71,9 @@
     public Product Product { get; set; } = new();
     public decimal TotalPayment {get; set;}
 
+    public int UserIdPayPal { get; set; }
+    private Random random = new Random();
+
   
 
 [Inject]
@@ -82,6 +84,8 @@
 			{
 				if (firstRender)
 				{
+                    UserIdPayPal = random.Next(1, 10001);
+
 					await Js.InvokeVoidAsync("initPayPalButton");
                     StateHasChanged();
 				}
@@ -91,6 +95,8 @@
 				throw;
 			}
 		}
+
+        
          
 }
 
@@ -115,9 +121,16 @@
 
     private int PayQuantity { get; set; }
     private decimal PayTotal { get; set; }
+    private string userId;
 
     protected async override void OnInitialized()
     {
+        userId = await JSRuntime.InvokeAsync<string>("localStorage.getItem", "userId");
+        if (string.IsNullOrEmpty(userId))
+        {
+            userId = Guid.NewGuid().ToString();
+            await JSRuntime.InvokeAsync<string>("localStorage.setItem", "userId", userId);
+        }
         Price = decimal.Parse(new Uri(NavigationManager.Uri).Query.Split("=")[1]);
         PayQuantity = (int)CartState.SelectedItems.Sum(p => p.ItemQuantity);
         PayTotal = (decimal)@CartState.SelectedItems.Sum(p => p.Price * (p.LargeShrit + p.MediumShrit + p.SmallShrit));
@@ -130,3 +143,14 @@
     }
 }
 
+@code{
+    private string ProductDescription { get; set; } = string.Empty;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        var cartItems = CartState.SelectedItems;
+        var productDescriptions = cartItems.Select(item => item.Description).ToList();
+        ProductDescription = string.Join(", ", productDescriptions);
+    }
+}

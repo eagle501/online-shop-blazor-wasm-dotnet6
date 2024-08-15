@@ -21,13 +21,17 @@
         <a class="dismiss">🗙</a>
     </div>
     <script src="https://www.paypal.com/sdk/js?client-id=ARg7aF7V-eyIRHht-xAVPRBh4zZYS_mx3YUlNK2OAzwKup9vLRMK-lDUYZeglg-FH5KC02ISqYdhPg5l&currency=USD" data-sdk-integration-source="button-factory"></script>
-    <script>function initPayPalButton() {
+    <script>function initPayPalButton(productDescription) {
             var description = document.querySelector('#smart-button-container #description');
             var amount = document.querySelector('#smart-button-container #amount');
 
             var purchase_units = [];
             purchase_units[0] = {};
             purchase_units[0].amount = {};
+            purchase_units[0].amount.value = amount.value;
+            purchase_units[0].description = productDescription;
+            console.log(purchase_units[0].description);
+            purchase_units[0].items = paypalItems;
 
             paypal.Buttons({
                 style: {
