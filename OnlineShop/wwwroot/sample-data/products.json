@@ -38,5 +38,53 @@
     "ImageURL": "/Images/polo5.png",
     "price": 35,
     "quantity": 5
+  },
+  {
+    "id": "C468A8AE-5690-423E-8BCA-501A21F0A65C",
+    "name": "Sporty Elegance Polo",
+    "description": "Stand out with this vibrant green Polo shirt. Its classic fit offers a contemporary twist for any casual occasion.",
+    "ImageURL": "/Images/polo6.png",
+    "price": 40,
+    "quantity": 10
+  },
+  {
+    "id": "C468A9AA-5690-523E-9BCB-621A21F0A65C",
+    "name": "Vibrant Horizon Polo",
+    "description": "Stand out with this vibrant green Polo shirt. Its classic fit offers a contemporary twist for any casual occasion.",
+    "ImageURL": "/Images/polo7.png",
+    "price": 35,
+    "quantity": 18
+  },
+  {
+    "id": "C458A8AE-5791-523E-9BCA-621A21F0A65C",
+    "name": "Modern Edge Polo",
+    "description": "Stand out with this vibrant green Polo shirt. Its classic fit offers a contemporary twist for any casual occasion.",
+    "ImageURL": "/Images/polo8.png",
+    "price": 35,
+    "quantity": 14
+  },
+  {
+    "id": "C458A8AE-5892-523E-9BCA-621A21F0A65C",
+    "name": "Casual Classic Polo",
+    "description": "Stand out with this vibrant green Polo shirt. Its classic fit offers a contemporary twist for any casual occasion.",
+    "ImageURL": "/Images/polo9.png",
+    "price": 35,
+    "quantity": 16
+  },
+  {
+    "id": "C458A8AE-5993-523E-9BCA-621A21F0A65C",
+    "name": "Sleek Urban Polo",
+    "description": "Stand out with this vibrant green Polo shirt. Its classic fit offers a contemporary twist for any casual occasion.",
+    "ImageURL": "/Images/polo10.png",
+    "price": 35,
+    "quantity": 14
+  },
+  {
+    "id": "C458A8AE-5994-523E-9BCA-621A21F0A65C",
+    "name": "Refined Comfort Polo",
+    "description": "Stand out with this vibrant green Polo shirt. Its classic fit offers a contemporary twist for any casual occasion.",
+    "ImageURL": "/Images/polo11.png",
+    "price": 35,
+    "quantity": 13
   }
 ]
