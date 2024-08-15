@@ -16,22 +16,21 @@
 
 
 
-
-@foreach (var selectedItem in CartState.SelectedItems)
+@if (_isInitialized)
 {
-   
-    
-    <CheckoutDisplay OnQuantityChange="HandleQuantityChange"
-                     TotalPrice="@TotalPriceGet" 
-                     Product="selectedItem" 
-                     DisplayBuyButton="false" 
-                     DisplayRemoveButton="true" 
-                     OnRemoveProduct="@(() => RemoveProductFromCart(selectedItem.Id))" 
-                     TotalPriceChanged="@(e => HandleTotalPriceChanged(e))"
-                     ValueQuantityMatch="@ValueQuantityMatch" 
-                     ValueQuantityMatchChanged="@(e => ValueQuantityMatch = e)"
-                     ShowSizeWarning="@ShowSizeWarning" />
-                     
+    @foreach (var selectedItem in CartState.SelectedItems)
+    {
+        <CheckoutDisplay OnQuantityChange="HandleQuantityChange"
+                         TotalPrice="@TotalPriceGet" 
+                         Product="selectedItem" 
+                         DisplayBuyButton="false" 
+                         DisplayRemoveButton="true" 
+                         OnRemoveProduct="@(() => RemoveProductFromCart(selectedItem.Id))" 
+                         TotalPriceChanged="@(e => HandleTotalPriceChanged(e))"
+                         ValueQuantityMatch="@ValueQuantityMatch" 
+                         ValueQuantityMatchChanged="@(e => ValueQuantityMatch = e)"
+                         ShowSizeWarning="@ShowSizeWarning" />
+    }
 }
 
 
@@ -124,6 +123,7 @@
         public int quantity {get; set;} = 1;
 
         private string localStoragePrice {get; set;}
+        private bool _isInitialized = false;
 
         private void CalculateQty()
         {
@@ -145,6 +145,8 @@
             await base.OnInitializedAsync();
             var ResetPrice = 0;
             await HandleQuantityChangePrice(ResetPrice);
+            _isInitialized = true;
+             await base.OnInitializedAsync();
 
         }
 
