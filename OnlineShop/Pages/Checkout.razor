@@ -57,9 +57,11 @@
 }
 @if(CartState.SelectedItems.Count > 0)
 {
+    <br/>
     <div class="d-flex justify-content-center">
     <button class="btn btn-success product-description-bold" type="button" @onclick="PaymentPage">Pay Now</button>
     </div>
+    <br/><br/>
 }
 @if(CartState.SelectedItems.Count == 0)
 {
