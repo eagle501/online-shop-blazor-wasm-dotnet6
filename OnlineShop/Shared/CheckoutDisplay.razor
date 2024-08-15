@@ -76,19 +76,19 @@
                     @if(isLargeChecked)
                     {
                         <label for="large" class="product-description-Bold" style="font-size: 15px;">Large:</label>
-                        <input type="range" min="1" max="20" value="@Product.LargeShrit" @oninput="UpdateLargeQuantity" />
+                        <input type="range" min="0" max="20" value="@Product.LargeShrit" @oninput="UpdateLargeQuantity" />
                         <br/>
                     }
                     @if(isMediumChecked)
                     {
                         <label for="medium" class="product-description-Bold" style="font-size: 15px;">Medium:</label>
-                        <input type="range" min="1" max="20" value="@Product.MediumShrit" @oninput="UpdateMediumQuantity" />
+                        <input type="range" min="0" max="20" value="@Product.MediumShrit" @oninput="UpdateMediumQuantity" />
                         <br/>
                     }
                     @if(isSmallChecked)
                     {
                         <label for="small" class="product-description-Bold" style="font-size: 15px;">Small:</label>
-                        <input type="range" min="1" max="20" value="@Product.SmallShrit" @oninput="UpdateSmallQuantity" />
+                        <input type="range" min="0" max="20" value="@Product.SmallShrit" @oninput="UpdateSmallQuantity" />
                         <br/>
                     }
 
