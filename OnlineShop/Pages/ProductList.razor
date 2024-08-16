@@ -7,12 +7,13 @@
 
 <PageTitle>Product List</PageTitle>
 <h3 class="product-description-bold-large">Product List</h3>
-<Virtualize Items="@Products" Context="product">
+@foreach (var product in Products)
+{
     <ProductDisplay Product="product" 
                     DisplayBuyButton="true"
                     ItemCountFunction="@ItemCountFunction" />
-</Virtualize>
-
+ 
+}
 
  
 
