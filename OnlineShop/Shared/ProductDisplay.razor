@@ -50,11 +50,27 @@
 
     private async Task HandleButtonOnClick()
     {
-        
-        await JSRuntime.InvokeVoidAsync("alert", "Product added to cart!", "Titllana-Bold");
-        StateHasChanged();
-        await CartState.AddProductToCartAsync(Product.Id);
-        await TotalPriceChanged.InvokeAsync(ItemCountFunction);
+        if (CartState.SelectedItems.Any(p => p.Id == Product.Id))
+        {
+            // Product is already in the cart
+            await JSRuntime.InvokeVoidAsync("alert", $"{Product.Name} is already in cart! {CartState.SelectedItems.Count} Item(s) in Cart.", "Titllana-Bold");
+        }
+        else
+        {
+            if(CartState.SelectedItems.Count <= 1)
+            {
+                 await JSRuntime.InvokeVoidAsync("alert", $"{Product.Name} added to cart!", "Titllana-Bold");
+            }
+            else
+            {
+                await JSRuntime.InvokeVoidAsync("alert", $"{Product.Name} added to cart! {CartState.SelectedItems.Count} Item(s) in Cart", "Titllana-Bold");
+            }
+           
+            StateHasChanged();
+            await CartState.AddProductToCartAsync(Product.Id);
+            await TotalPriceChanged.InvokeAsync(ItemCountFunction);
+        }
+       
         
     }
     protected override async Task OnInitializedAsync()
