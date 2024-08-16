@@ -59,11 +59,11 @@
         {
             if(CartState.SelectedItems.Count <= 1)
             {
-                 await JSRuntime.InvokeVoidAsync("alert", $"{Product.Name} added to cart!", "Titllana-Bold");
+                 await JSRuntime.InvokeVoidAsync("alert", $"{Product.Name} added to cart!", "Titllana-Bold","red");
             }
             else
             {
-                await JSRuntime.InvokeVoidAsync("alert", $"{Product.Name} added to cart! {CartState.SelectedItems.Count} Item(s) in Cart", "Titllana-Bold");
+                await JSRuntime.InvokeVoidAsync("alert", $"{Product.Name} added to cart! {CartState.SelectedItems.Count} Item(s) in Cart", "Titllana-Bold","red");
             }
            
             StateHasChanged();
