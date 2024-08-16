@@ -1,5 +1,9 @@
 ﻿@page "/"
+@using OnlineShop.States
+@using OnlineShop.Models
+@inject HttpClient Http
 @inject NavigationManager NavigationManager
+@inject CartState CartState
 
 
 
@@ -11,9 +15,47 @@
 
 
 <br />
+
+
+<div id="product-carousel" class="carousel slide" data-ride="carousel">
+    <div class="carousel-inner">
+        @foreach (var product in Products)
+        {
+            var isActive = Products.IndexOf(product) == 0 ? "active" : "";
+            <div class="carousel-item @isActive">
+                <ProductDisplay Product="product" 
+                                DisplayBuyButton="true"
+                                ItemCountFunction="@ItemCountFunction" />
+            </div>
+        }
+    </div>
+    <a class="carousel-control-prev" href="#product-carousel" role="button" data-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+    </a>
+    <a class="carousel-control-next" href="#product-carousel" role="button" data-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+    </a>
+</div>
+
+
+
+
 @code{
+    [Parameter]
+    public int ItemCountFunction { get; set;}
+    [Parameter]
+    public EventCallback<decimal> TotalPriceChanged { get; set; }
+    public List<Product> Products { get; set; } = new();
     private void NavigateToProductPage()
     {
         NavigationManager.NavigateTo("/product-list");
+    }
+    protected override async Task OnInitializedAsync()
+    {
+        Products = await Http.GetFromJsonAsync<List<Product>>("sample-data/products.json") ?? new();
+        await TotalPriceChanged.InvokeAsync(ItemCountFunction);
+        StateHasChanged();
     }
 }
