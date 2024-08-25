@@ -2,6 +2,7 @@
 @using OnlineShop.States
 @inject CartState CartState
 @inject IJSRuntime JSRuntime
+@inject NavigationManager NavigationManager
 
 
 <div class="d-flex justify-content-center align-items-center vh-75">
@@ -15,10 +16,18 @@
                     
                     <blockquote class="card-text product-description-Bold" style="color:red;">$@Product.Price</blockquote>
                     <h5 class="card-title product-description-Bold">@Product.Name</h5>
-                    <p class="card-text payment-dicription-title">@Product.Description</p>
-                    <blockquote class="stock-notice">Only @Product.Quantity in Stock!</blockquote>
+                    @if(!CartState.SelectedItems.Any(p => p.Id == Product.Id))
+                    {
+                        <p class="card-text payment-dicription-title">@Product.Description</p>
+                        <blockquote class="stock-notice">Only @Product.Quantity in Stock!</blockquote>
+                    }
                     
-                    @if (DisplayBuyButton)
+                    @if (CartState.SelectedItems.Any(p => p.Id == Product.Id))
+                    {
+                        <p class="stock-notice">Item Added To Cart.</p>
+                        <button class="btn btn-success product-description-Bold" style="font-size: 16px;" type="button" @onclick="NavigateToCheckoutPage">View Cart</button>
+                    }
+                    @if (DisplayBuyButton && !CartState.SelectedItems.Any(p => p.Id == Product.Id))
                     {
                        <button class="btn btn-success product-description-Bold" style="font-size: 16px;" type="button" @onclick="UpdateItemCount">Add To Cart</button>
                     }
@@ -80,16 +89,25 @@
             await Task.Delay(1000);
         }
 
-    @code {
+    
+}
+
+@code {
         // ...
     
-        private async void UpdateItemCount()
-        {
-            ItemCountFunction = CartState.SelectedItems.Count;
-            await HandleButtonOnClick();
-            await TotalPriceChanged.InvokeAsync(ItemCountFunction);
-            StateHasChanged();
-        }
+    private async void UpdateItemCount()
+    {
+        ItemCountFunction = CartState.SelectedItems.Count;
+        //await HandleButtonOnClick();
+        await TotalPriceChanged.InvokeAsync(ItemCountFunction);
+        await CartState.AddProductToCartAsync(Product.Id);
+        StateHasChanged();
     }
 }
 
+@code{
+    private void NavigateToCheckoutPage()
+    {
+        NavigationManager.NavigateTo("/checkout");
+    }
+}
