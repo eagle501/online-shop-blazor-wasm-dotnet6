@@ -13,7 +13,9 @@
 
 <PageTitle>Checkout</PageTitle>
 <h3 class="product-description-bold-large">Checkout</h3>
-
+<!--
+<p>Total Price: @TotalPriceGet</p>
+-->
 
 
 @if (_isInitialized)
@@ -281,12 +283,7 @@
 @code {
     private decimal TotalPriceGet { get; set; }
 
-    private async Task OnTotalPriceChanged(decimal newTotalPriceGet)
-    {
-        TotalPriceGet = newTotalPriceGet;
-        // Example: Perform additional actions or update UI based on the new total price
-        await Task.Delay(1000); // Simulating an asynchronous operation
-    }
+    
 }
 
 @code{

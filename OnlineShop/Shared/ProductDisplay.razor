@@ -1,8 +1,10 @@
 ﻿@using OnlineShop.Models
 @using OnlineShop.States
+@using OnlineShop.Utilities
 @inject CartState CartState
 @inject IJSRuntime JSRuntime
 @inject NavigationManager NavigationManager
+@inject INotificationService NotificationService
 
 
 <div class="d-flex justify-content-center align-items-center vh-75">
@@ -25,7 +27,14 @@
                     @if (CartState.SelectedItems.Any(p => p.Id == Product.Id))
                     {
                         <p class="stock-notice">Item Added To Cart.</p>
+
+                        <a href="checkout" class="btn btn-success" style="font-family:con3; font-size: 20px;">
+                        <i class="oi oi-cart"></i>&nbsp;<text class="payment-dicription-title" style="font-size: 18px;">View Cart</text>
+                        <span class="badge bg-dark">@SelectedItemsCount1</span>
+                        </a>
+                        <!--
                         <button class="btn btn-success product-description-Bold" style="font-size: 16px;" type="button" @onclick="NavigateToCheckoutPage">View Cart</button>
+                        -->
                     }
                     @if (DisplayBuyButton && !CartState.SelectedItems.Any(p => p.Id == Product.Id))
                     {
@@ -85,6 +94,8 @@
     protected override async Task OnInitializedAsync()
         {
             var ItemCountFunction = CartState.SelectedItems.Count;
+            await NotificationService.Subscribe<CartChangeEvent>(UpdateItemCount);
+            SelectedItemsCount1 = CartState.SelectedItems.Count;
             StateHasChanged();
             await Task.Delay(1000);
         }
@@ -106,8 +117,14 @@
 }
 
 @code{
+    private int SelectedItemsCount1 { get; set; }
     private void NavigateToCheckoutPage()
     {
         NavigationManager.NavigateTo("/checkout");
+    }
+    private void UpdateItemCount(CartChangeEvent @event)
+    {
+        SelectedItemsCount1 = @event.Items.Count;
+        StateHasChanged();
     }
 }

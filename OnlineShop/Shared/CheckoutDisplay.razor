@@ -170,7 +170,7 @@
     public bool DisplayRemoveButton { get; set; } = false;
 
     [Parameter]
-    public decimal TotalPrice { get; set;} = 0;
+    public decimal TotalPrice { get; set;}
 
     [Parameter]
     public EventCallback<Guid> OnRemoveProduct { get; set; }
@@ -357,34 +357,49 @@
     private async Task UpdateLargeQuantity(ChangeEventArgs e)
     {
         isLargeChecked = true;
+        ValueQuantityMatch = (int)CartState.SelectedItems.Sum(p => p.Price * (p.LargeShrit + p.MediumShrit + p.SmallShrit));
         if (int.TryParse(e.Value.ToString(), out int quantity))
         {
             Product.LargeShrit = quantity;
             await OnQuantityTotalLarge.InvokeAsync(quantity);
             StateHasChanged();
         }
+        TotalPrice = ValueQuantityMatch;
+        ValueQuantityMatch = 0;
+        await TotalPriceChanged.InvokeAsync(TotalPrice);
+        StateHasChanged();
     }
 
     private async Task UpdateMediumQuantity(ChangeEventArgs e)
     {
         isMediumChecked = true;
+        ValueQuantityMatch = (int)CartState.SelectedItems.Sum(p => p.Price * (p.LargeShrit + p.MediumShrit + p.SmallShrit));
         if (int.TryParse(e.Value.ToString(), out int quantity))
         {
             Product.MediumShrit = quantity;
             await OnQuantityTotalMedium.InvokeAsync(Product.MediumShrit);
             StateHasChanged();
         }
+        TotalPrice = ValueQuantityMatch;
+        ValueQuantityMatch = 0;
+        await TotalPriceChanged.InvokeAsync(TotalPrice);
+        StateHasChanged();
     }
 
     private async Task UpdateSmallQuantity(ChangeEventArgs e)
     {
         isSmallChecked = true;
+        ValueQuantityMatch = (int)CartState.SelectedItems.Sum(p => p.Price * (p.LargeShrit + p.MediumShrit + p.SmallShrit));
         if (int.TryParse(e.Value.ToString(), out int quantity))
         {
             Product.SmallShrit = quantity;
             await OnQuantityTotalSmall.InvokeAsync(Product.SmallShrit);
             StateHasChanged();
         }
+        TotalPrice = ValueQuantityMatch;
+        ValueQuantityMatch = 0;
+        await TotalPriceChanged.InvokeAsync(TotalPrice);
+        StateHasChanged();
     }
 }
 
@@ -397,7 +412,7 @@
     private async Task OnLargeCheckboxChanged(ChangeEventArgs e)
     {
         ClickOptionSelecterLarge = false;
-        ValueQuantityMatch = CartState.SelectedItems.Sum(p => p.LargeShrit + p.MediumShrit + p.SmallShrit);
+        ValueQuantityMatch = (int)CartState.SelectedItems.Sum(p => p.Price * (p.LargeShrit + p.MediumShrit + p.SmallShrit));
         isLargeChecked = true;
         var cardItemId = Product.Id;
         
@@ -406,6 +421,9 @@
         {
             Product.LargeShrit = 1;
         }
+        TotalPrice = ValueQuantityMatch;
+        ValueQuantityMatch = 0;
+        await TotalPriceChanged.InvokeAsync(TotalPrice);
         StateHasChanged();
      
         
@@ -413,6 +431,7 @@
     private async Task OnMediumCheckboxChanged(ChangeEventArgs e)
     {
         ClickOptionSelecterMedium = false;
+        ValueQuantityMatch = (int)CartState.SelectedItems.Sum(p => p.Price * (p.LargeShrit + p.MediumShrit + p.SmallShrit));
         isMediumChecked = true;
         var cardItemId = Product.Id;
         
@@ -421,11 +440,15 @@
         {
             Product.MediumShrit = 1;
         }
+        TotalPrice = ValueQuantityMatch;
+        ValueQuantityMatch = 0;
+        await TotalPriceChanged.InvokeAsync(TotalPrice);
         StateHasChanged();
     }
     private async Task OnSmallCheckboxChanged(ChangeEventArgs e)
     {
         ClickOptionSelecterSmall = false;
+        ValueQuantityMatch = (int)CartState.SelectedItems.Sum(p => p.Price * (p.LargeShrit + p.MediumShrit + p.SmallShrit));
         isSmallChecked = true;
         var cardItemId = Product.Id;
         
@@ -434,6 +457,9 @@
         {
             Product.SmallShrit = 1;
         }
+        TotalPrice = ValueQuantityMatch;
+        ValueQuantityMatch = 0;
+        await TotalPriceChanged.InvokeAsync(TotalPrice);
         StateHasChanged();
     }
 
