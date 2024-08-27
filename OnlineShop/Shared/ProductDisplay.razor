@@ -30,7 +30,7 @@
 
                         <a href="checkout" class="btn btn-success" style="font-family:con3; font-size: 20px;">
                         <i class="oi oi-cart"></i>&nbsp;<text class="payment-dicription-title" style="font-size: 18px;">View Cart</text>
-                        <span class="badge bg-dark">@SelectedItemsCount1</span>
+                        <span class="badge bg-dark">Qty# @SelectedItemsCount1</span><span class="badge bg-dark"> $@TotalItemPriceDisplay</span>
                         </a>
                         <!--
                         <button class="btn btn-success product-description-Bold" style="font-size: 16px;" type="button" @onclick="NavigateToCheckoutPage">View Cart</button>
@@ -96,6 +96,9 @@
             var ItemCountFunction = CartState.SelectedItems.Count;
             await NotificationService.Subscribe<CartChangeEvent>(UpdateItemCount);
             SelectedItemsCount1 = CartState.SelectedItems.Count;
+            await NotificationService.Subscribe<CartChangeEvent>(UpdateTotalItemPrice);
+            TotalItemPriceDisplay = await JSRuntime.InvokeAsync<string>("localStorage.getItem", "TotalItemPrice");
+        
             StateHasChanged();
             await Task.Delay(1000);
         }
@@ -106,10 +109,13 @@
 @code {
         // ...
     
-    private async void UpdateItemCount()
+    private async Task UpdateItemCount()
     {
         ItemCountFunction = CartState.SelectedItems.Count;
         //await HandleButtonOnClick();
+        PriceCalculater = (decimal)CartState.SelectedItems.Sum(p => p.Price);
+        await PriceCalculaterChanged.InvokeAsync(PriceCalculater);
+        StateHasChanged();
         await TotalPriceChanged.InvokeAsync(ItemCountFunction);
         await CartState.AddProductToCartAsync(Product.Id);
         StateHasChanged();
@@ -126,5 +132,48 @@
     {
         SelectedItemsCount1 = @event.Items.Count;
         StateHasChanged();
+    }
+}
+@code{
+    [Parameter]
+    public EventCallback<decimal> PriceCalculaterChanged { get; set; }
+    private decimal PriceCalculater { get; set; } = 0;
+
+
+}
+@code {
+    private decimal TotalItemPrice { get; set; }
+    private string TotalItemPriceDisplay { get; set; } = "";
+
+/*
+    private void UpdateTotalItemPrice(CartChangeEvent @event)
+    {
+        TotalItemPrice = (decimal)@event.Items.Sum(p => p.Price);
+        StateHasChanged();
+    }
+*/
+    private async Task UpdateTotalItemPriceAsync(CartChangeEvent @event)
+    {
+        TotalItemPrice = (decimal)@event.Items.Sum(p => p.Price);
+        await JSRuntime.InvokeVoidAsync("localStorage.setItem", "TotalItemPrice", TotalItemPrice.ToString());
+        TotalItemPriceDisplay = await JSRuntime.InvokeAsync<string>("localStorage.getItem", "TotalItemPrice");
+        StateHasChanged();
+    }
+    
+    private void UpdateTotalItemPrice(CartChangeEvent @event)
+    {
+        _ = UpdateTotalItemPriceAsync(@event);
+    }
+}
+
+@code {
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            TotalItemPriceDisplay = await JSRuntime.InvokeAsync<string>("localStorage.getItem", "TotalItemPrice");
+            StateHasChanged();
+        }
     }
 }

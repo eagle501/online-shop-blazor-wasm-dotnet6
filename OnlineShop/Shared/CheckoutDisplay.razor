@@ -152,7 +152,6 @@
    <div>Current Quantity is @Product.Price.ToString("c")</div> 
    <p>Product Quantity is: @Product.ItemQuantity</p>
     
-   <p>TotalPrice is: @TotalPrice</p>
    
    -->
 
@@ -170,7 +169,7 @@
     public bool DisplayRemoveButton { get; set; } = false;
 
     [Parameter]
-    public decimal TotalPrice { get; set;}
+    public decimal TotalPrice { get; set;} = 0;
 
     [Parameter]
     public EventCallback<Guid> OnRemoveProduct { get; set; }
@@ -335,11 +334,8 @@
             // Handle the case where the input is not a valid integer
             // For example, you can display an error message to the user
         }
-        TotalPrice = 0;
-        foreach (var product in CartState.SelectedItems)
-        {
-            TotalPrice += (decimal)product.Price * product.ItemQuantity;
-        }
+        TotalPrice = (decimal)CartState.SelectedItems.Sum(p => p.Price);
+        
         // Call StateHasChanged to update the UI
         StateHasChanged();
         TotalPriceChanged.InvokeAsync(TotalPrice);

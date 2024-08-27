@@ -13,17 +13,16 @@
 
 <PageTitle>Checkout</PageTitle>
 <h3 class="product-description-bold-large">Checkout</h3>
-<!--
-<p>Total Price: @TotalPriceGet</p>
--->
+<p class="sticky-top">Total Price: @TotalPriceGet</p>
+
+
 
 
 @if (_isInitialized)
 {
     @foreach (var selectedItem in CartState.SelectedItems)
     {
-        <CheckoutDisplay OnQuantityChange="HandleQuantityChange"
-                         TotalPrice="@TotalPriceGet" 
+        <CheckoutDisplay TotalPrice="@TotalPriceGet" 
                          Product="selectedItem" 
                          DisplayBuyButton="false" 
                          DisplayRemoveButton="true" 
@@ -127,6 +126,8 @@
         private string localStoragePrice {get; set;}
         private bool _isInitialized = false;
 
+        private int currentQuantity = 0;
+
         private void CalculateQty()
         {
            totalPrice = @quantity * TotalPrice;
@@ -164,6 +165,7 @@
         private async Task HandleQuantityChangePrice(int newQuantity)
         {
             var ResetPrice = 0;
+            
             // Handle the quantity change here
             await JSRuntime.InvokeVoidAsync("localStorage.setItem","TotalPrice",ResetPrice);
             
@@ -297,15 +299,19 @@
 }
 
 @code {
+    /*
     private int Qty {get; set;} 
     private void HandleQuantityChange(int newQuantity)
     {
         // Handle the quantity change here
         Qty = newQuantity;
     }
+    */
+    
 }
 
 @code {
+    /*
     private Dictionary<Guid, int> ItemQuantities { get; set; } = new Dictionary<Guid, int>();
 
     private int TotalQuantity { get; set; }
@@ -322,6 +328,7 @@
         //TotalQuantity += newQuantity;
 
     }
+    */
 }
 
 

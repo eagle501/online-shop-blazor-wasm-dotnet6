@@ -1,22 +1,27 @@
 ﻿@page "/product-list"
 @using OnlineShop.Models
 @using OnlineShop.States
+@using OnlineShop.Utilities
 @inject HttpClient Http
 @inject NavigationManager NavigationManager
+@inject INotificationService NotificationService
 @inject CartState CartState
 
 <PageTitle>Product List</PageTitle>
 <h3 class="product-description-bold-large">Product List</h3>
+
+
 @foreach (var product in Products)
 {
-    <ProductDisplay Product="product" 
+    <ProductDisplay Product="product"
+                    PriceCalculaterChanged="UpdateTotalPrice" 
                     DisplayBuyButton="true"
                     ItemCountFunction="@ItemCountFunction" />
  
 }
 
- 
 
+    
     <div class="d-flex justify-content-center">
       <button class="btn btn-success product-description-bold-large" type="button" @onclick="NavigateToCheckoutPage">View Cart</button>
     </div>
@@ -38,11 +43,31 @@
     protected override async Task OnInitializedAsync()
     {
         Products = await Http.GetFromJsonAsync<List<Product>>("sample-data/products.json") ?? new();
-            await TotalPriceChanged.InvokeAsync(ItemCountFunction);
+        await TotalPriceChanged.InvokeAsync(ItemCountFunction);
+        await NotificationService.Subscribe<CartChangeEvent>(UpdateTotalItemPrice);
     }
     private void NavigateToCheckoutPage()
     {
         NavigationManager.NavigateTo("/checkout");
     }
 
+}
+@code{
+    private decimal PriceTotalChange = 0;
+
+    private void UpdateTotalPrice(decimal newPrice)
+    {
+        PriceTotalChange = newPrice;
+    }
+    
+}
+@code {
+    private decimal TotalItemPrice { get; set; }
+
+
+    private void UpdateTotalItemPrice(CartChangeEvent @event)
+    {
+        TotalItemPrice = (decimal)@event.Items.Sum(p => p.Price);
+        StateHasChanged();
+    }
 }
