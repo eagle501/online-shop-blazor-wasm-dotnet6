@@ -49,7 +49,7 @@
 
 
 
-@code {
+@code{
     [EditorRequired]
     [Parameter]
     public Product Product { get; set; } = new();
@@ -106,8 +106,8 @@
     
 }
 
-@code {
-        // ...
+@code{
+        
     
     private async Task UpdateItemCount()
     {
@@ -141,10 +141,9 @@
 
 
 }
-@code {
+@code{
     private decimal TotalItemPrice { get; set; }
     private string TotalItemPriceDisplay { get; set; } = "";
-
 /*
     private void UpdateTotalItemPrice(CartChangeEvent @event)
     {
@@ -156,24 +155,14 @@
     {
         TotalItemPrice = (decimal)@event.Items.Sum(p => p.Price);
         await JSRuntime.InvokeVoidAsync("localStorage.setItem", "TotalItemPrice", TotalItemPrice.ToString());
-        TotalItemPriceDisplay = await JSRuntime.InvokeAsync<string>("localStorage.getItem", "TotalItemPrice");
+        //TotalItemPriceDisplay = (await JSRuntime.InvokeAsync<string>("localStorage.getItem", "TotalItemPrice")).ToString();
         StateHasChanged();
     }
-    
+
     private void UpdateTotalItemPrice(CartChangeEvent @event)
     {
         _ = UpdateTotalItemPriceAsync(@event);
     }
+
 }
 
-@code {
-
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        if (firstRender)
-        {
-            TotalItemPriceDisplay = await JSRuntime.InvokeAsync<string>("localStorage.getItem", "TotalItemPrice");
-            StateHasChanged();
-        }
-    }
-}

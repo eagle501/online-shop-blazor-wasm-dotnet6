@@ -285,7 +285,12 @@
 @code {
     private decimal TotalPriceGet { get; set; }
 
-    
+    private async Task OnTotalPriceChanged(decimal newTotalPriceGet)
+    {
+        TotalPriceGet = newTotalPriceGet;
+        // Example: Perform additional actions or update UI based on the new total price
+        await Task.Delay(1000); // Simulating an asynchronous operation
+    }
 }
 
 @code{
