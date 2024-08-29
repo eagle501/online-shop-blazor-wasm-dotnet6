@@ -1,0 +1,107 @@
+@page "/polothirtyfive"
+@using OnlineShop.Utilities
+@using OnlineShop.Models
+@using OnlineShop.States
+@inject CartState CartState
+@inject HttpClient Http
+
+<PageTitle>$35 Polo Shirts</PageTitle>
+<h3 class="product-description-bold-large">$35 Product List</h3>
+
+<p>Select Pricing</p>
+
+<div>
+    <input type="radio" id="html" name="price" value="35" @onchange="OnRadioChange">
+    <label for="html">$35</label><br>
+
+    <input type="radio" id="css" name="price" value="40" @onchange="OnRadioChange">
+    <label for="css">$40</label><br>
+
+    <input type="radio" id="css" name="price" value="55" @onchange="OnRadioChange">
+    <label for="css">$55</label><br>
+</div>
+
+<p>You selected: @SelectedPrice</p>
+<p>Showing @CounterDisplay Items</p>
+@if(SelectedPrice == "35")
+{
+    @foreach (var product in Products)
+    {
+        @if(product.Price <= 35)
+        {
+            <ProductDisplay Product="product"
+                        PriceCalculaterChanged="UpdateTotalPrice" 
+                        DisplayBuyButton="true"
+                        ItemCountFunction="@ItemCountFunction" />  
+                        CounterDisplay++;
+        }    
+    }
+    <p>Showing @CounterDisplay $35 Shirts</p>
+    CounterDisplay = 0;
+}
+@if(SelectedPrice == "40")
+{
+    @foreach (var product in Products)
+    {
+        @if(product.Price >= 40 && product.Price < 50)
+        {
+            <ProductDisplay Product="product"
+                        PriceCalculaterChanged="UpdateTotalPrice" 
+                        DisplayBuyButton="true"
+                        ItemCountFunction="@ItemCountFunction" />  
+                        CounterDisplay++;
+        }    
+    }
+    <p>Showing @CounterDisplay $40 Shirts</p>
+    CounterDisplay = 0;
+}
+@if(SelectedPrice == "55")
+{
+    @foreach (var product in Products)
+    {
+        @if(product.Price >= 50)
+        {
+            <ProductDisplay Product="product"
+                        PriceCalculaterChanged="UpdateTotalPrice" 
+                        DisplayBuyButton="true"
+                        ItemCountFunction="@ItemCountFunction" />  
+                        CounterDisplay++;
+        }    
+    }
+    <p>Showing @CounterDisplay $50 Shirts</p>
+    CounterDisplay = 0;
+}
+@code{
+    public List<Product> Products { get; set; } = new();
+    [Parameter]
+    public EventCallback<decimal> UpdateTotalPrice { get; set; }
+    [Parameter]
+    public int ItemCountFunction { get; set;}
+    private int thirtyFivePrice = 0;
+    private int CounterDisplay { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        Products = await Http.GetFromJsonAsync<List<Product>>("sample-data/products.json") ?? new();
+        
+    }
+
+    private void ShowProductDisplayThirtyfive()
+    {
+    }
+
+    
+}
+@code {
+
+    private string SelectedPrice { get; set; } = "";
+
+    private void OnRadioChange(ChangeEventArgs e)
+    {
+        SelectedPrice = e.Value.ToString();
+    }
+    private void UpdateThirtyFivePrice(ChangeEventArgs e)
+    {
+        thirtyFivePrice = (e.Value as string) == "35" ? 1 : 0;
+    }
+}
