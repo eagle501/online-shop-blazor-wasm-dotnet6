@@ -16,8 +16,9 @@
             <div class="page">
 
                 <a href="checkout" class="btn btn-success" style="font-family:con3;">
-                    <i class="oi oi-cart"></i>&nbsp;<text class="payment-dicription-title">Cart</text>
                     <span class="badge bg-dark">@SelectedItemsCount1</span>
+                    <i class="oi oi-cart"></i>&nbsp;<text class="payment-dicription-title">Cart</text>
+                    <span class="badge bg-dark">$@PriceData</span>
                 </a>
             </div>
      
@@ -31,10 +32,12 @@
 
 @code {
     private int SelectedItemsCount1 { get; set; }
+    private double PriceData { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
         await NotificationService.Subscribe<CartChangeEvent>(UpdateItemCount);
+        await NotificationService.Subscribe<CartChangeEvent>(UpdatePriceData);
         SelectedItemsCount1 = CartState.SelectedItems.Count;
         await base.OnInitializedAsync();
     }
@@ -42,6 +45,11 @@
     private void UpdateItemCount(CartChangeEvent @event)
     {
         SelectedItemsCount1 = @event.Items.Count;
+        StateHasChanged();
+    }
+    private void UpdatePriceData(CartChangeEvent @event)
+    {
+        PriceData = CartState.SelectedItems.Sum(p => p.Price);
         StateHasChanged();
     }
 }
