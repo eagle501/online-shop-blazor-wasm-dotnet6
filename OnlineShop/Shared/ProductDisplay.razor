@@ -98,16 +98,13 @@
             SelectedItemsCount1 = CartState.SelectedItems.Count;
             await NotificationService.Subscribe<CartChangeEvent>(UpdateTotalItemPrice);
             TotalItemPriceDisplay = await JSRuntime.InvokeAsync<string>("localStorage.getItem", "TotalItemPrice");
-        
+            
             StateHasChanged();
             await Task.Delay(1000);
         }
 
     
-}
-
-@code{
-        
+    
     
     private async Task UpdateItemCount()
     {
@@ -120,9 +117,7 @@
         await CartState.AddProductToCartAsync(Product.Id);
         StateHasChanged();
     }
-}
 
-@code{
     private int SelectedItemsCount1 { get; set; }
     private void NavigateToCheckoutPage()
     {
@@ -133,29 +128,23 @@
         SelectedItemsCount1 = @event.Items.Count;
         StateHasChanged();
     }
-}
-@code{
+
     [Parameter]
     public EventCallback<decimal> PriceCalculaterChanged { get; set; }
     private decimal PriceCalculater { get; set; } = 0;
 
 
-}
-@code{
+
     private decimal TotalItemPrice { get; set; }
     private string TotalItemPriceDisplay { get; set; } = "";
-/*
-    private void UpdateTotalItemPrice(CartChangeEvent @event)
-    {
-        TotalItemPrice = (decimal)@event.Items.Sum(p => p.Price);
-        StateHasChanged();
-    }
-*/
+    private string storedValue;
+
     private async Task UpdateTotalItemPriceAsync(CartChangeEvent @event)
     {
         TotalItemPrice = (decimal)@event.Items.Sum(p => p.Price);
         await JSRuntime.InvokeVoidAsync("localStorage.setItem", "TotalItemPrice", TotalItemPrice.ToString());
-        //TotalItemPriceDisplay = (await JSRuntime.InvokeAsync<string>("localStorage.getItem", "TotalItemPrice")).ToString();
+        TotalItemPriceDisplay = TotalItemPrice.ToString(); 
+        //storedValue = await JSRuntime.InvokeAsync<string>("localStorage.getItem", "TotalItemPrice");
         StateHasChanged();
     }
 
