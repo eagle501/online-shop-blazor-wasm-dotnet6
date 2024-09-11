@@ -1,0 +1,14 @@
+.btn-check {
+    background-color: #34C759;
+    border-color: #34C759;
+}
+
+.btn-check:focus {
+    box-shadow: 0 0 0 0.25rem rgba(52, 199, 89, 0.5);
+}
+
+.btn-check:checked {
+    background-color: #34C759;
+    border-color: #34C759;
+    box-shadow: 0 0 0 0.25rem rgba(52, 199, 89, 0.5);
+}

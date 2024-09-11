@@ -7,22 +7,22 @@
 
 <PageTitle>$35 Polo Shirts</PageTitle>
 <h3 class="product-description-bold-large">$35 Product List</h3>
-
-<p>Select Pricing</p>
-
-<div>
-    <input type="radio" id="html" name="price" value="35" @onchange="OnRadioChange">
-    <label for="html">$35</label><br>
-
-    <input type="radio" id="css" name="price" value="40" @onchange="OnRadioChange">
-    <label for="css">$40</label><br>
-
-    <input type="radio" id="css" name="price" value="55" @onchange="OnRadioChange">
-    <label for="css">$55</label><br>
+<div class="d-flex justify-content-center">
+    <p>Select Pricing:</p>
 </div>
+<div class="d-flex justify-content-center">
+    <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+        <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off" checked @onclick="ShowProductDisplayThirtyfive">
+        <label class="btn btn-outline-primary" for="btnradio1">$35 Shirts</label>
 
-<p>You selected: @SelectedPrice</p>
-<p>Showing @CounterDisplay Items</p>
+        <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off" @onclick="ShowProductDisplayForty">
+        <label class="btn btn-outline-primary" for="btnradio2">$40 Shirts</label>
+
+        <input type="radio" class="btn-check" name="btnradio" id="btnradio3" autocomplete="off" @onclick="ShowProductDisplayFiftyfive">
+        <label class="btn btn-outline-primary" for="btnradio3">$55 Shirts</label>
+    </div>
+</div>
+<hr/><br/>
 @if(SelectedPrice == "35")
 {
     @foreach (var product in Products)
@@ -39,7 +39,7 @@
     <p>Showing @CounterDisplay $35 Shirts</p>
     CounterDisplay = 0;
 }
-@if(SelectedPrice == "40")
+@if(SelectedPrice == "40" || SelectedParts == 40)
 {
     @foreach (var product in Products)
     {
@@ -79,29 +79,55 @@
     public int ItemCountFunction { get; set;}
     private int thirtyFivePrice = 0;
     private int CounterDisplay { get; set; }
+    private string ?SelectedPrice { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
         Products = await Http.GetFromJsonAsync<List<Product>>("sample-data/products.json") ?? new();
-        
+        OnRadioChange(new ChangeEventArgs { Value = "35" });
     }
 
     private void ShowProductDisplayThirtyfive()
     {
+        OnRadioChange(new ChangeEventArgs { Value = "35" });
+    }
+    private void ShowProductDisplayForty()
+    {
+        OnRadioChange(new ChangeEventArgs { Value = "40" });
+    }
+    private void ShowProductDisplayFiftyfive()
+    {
+        OnRadioChange(new ChangeEventArgs { Value = "55" });
+    }
+    private void OnRadioChange(ChangeEventArgs e)
+    {
+        if(e.Value != null)
+        {
+           SelectedPrice = e.Value.ToString(); 
+        }
+        else
+        {
+            SelectedPrice = string.Empty;
+        }
+        
     }
 
     
 }
 @code {
 
-    private string SelectedPrice { get; set; } = "";
+    
+    private int SelectedParts { get; set; }
 
-    private void OnRadioChange(ChangeEventArgs e)
+    
+    private void ThirtyFivePriceFunction()
     {
-        SelectedPrice = e.Value.ToString();
+        SelectedPrice = "35";
+        StateHasChanged();
     }
-    private void UpdateThirtyFivePrice(ChangeEventArgs e)
+
+    private void RunFunction()
     {
-        thirtyFivePrice = (e.Value as string) == "35" ? 1 : 0;
+        SelectedParts = 35;
     }
 }
