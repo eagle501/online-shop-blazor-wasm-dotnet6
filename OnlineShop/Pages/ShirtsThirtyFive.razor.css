@@ -1,14 +1,34 @@
-.btn-check {
-    background-color: #34C759;
-    border-color: #34C759;
+@font-face{
+    font-family: "ReenieBeanie";
+    src: url('/fonts/ReenieBeanie.ttf') format('truetype');
+}
+@font-face{
+    font-family: "Tillana-Regular";
+    src: url('/fonts/Tillana-Regular.ttf') format('truetype');
+}
+@font-face{
+    font-family: "Tillana-ExtraBold";
+    src: url('/fonts/Tillana-ExtraBold.ttf') format('truetype');
+}
+@font-face {
+    font-family: "Tillana-Bold";
+    src: url('/fonts/Tillana-Bold.ttf') format('truetype');
 }
 
-.btn-check:focus {
-    box-shadow: 0 0 0 0.25rem rgba(52, 199, 89, 0.5);
+.product-description-bold-larger {
+    font-family: "Tillana-Bold", Arial, Helvetica, sans-serif;
+    font-size: 24px;
 }
-
-.btn-check:checked {
-    background-color: #34C759;
-    border-color: #34C759;
-    box-shadow: 0 0 0 0.25rem rgba(52, 199, 89, 0.5);
+.product-description-bold-large {
+    font-family: "ReenieBeanie", Arial, Helvetica, sans-serif;
+    font-size: 24px;
+    
+}
+.payment-dicription-title {
+    font-family: "Tillana-Regular", Arial, Helvetica, sans-serif;
+    font-size: 24px;
+}
+.title-bold-text-tillana-bold {
+    font-family: "Tillana-ExtraBold", Arial, Helvetica, sans-serif;
+    font-size: 24px;
 }

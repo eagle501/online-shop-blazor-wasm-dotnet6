@@ -5,13 +5,13 @@
 @inject CartState CartState
 @inject HttpClient Http
 
-<PageTitle>$35 Polo Shirts</PageTitle>
-<h3 class="product-description-bold-large">$35 Product List</h3>
+
+<h3 class="product-description-bold-larger">$35 Product List</h3>
 <div class="d-flex justify-content-center">
-    <p>Select Pricing:</p>
+    <h5 class="payment-dicription-title"><b>Select Pricing:</b></h5>
 </div>
 <div class="d-flex justify-content-center">
-    <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+    <div class="btn-group radio-btn" role="group" aria-label="Basic radio toggle button group">
         <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off" checked @onclick="ShowProductDisplayThirtyfive">
         <label class="btn btn-outline-primary" for="btnradio1">$35 Shirts</label>
 
@@ -24,7 +24,7 @@
 </div>
 <hr/><br/>
 @if(SelectedPrice == "35")
-{
+{ 
     @foreach (var product in Products)
     {
         @if(product.Price <= 35)
@@ -36,7 +36,7 @@
                         CounterDisplay++;
         }    
     }
-    <p>Showing @CounterDisplay $35 Shirts</p>
+    <p>#@CounterDisplay </p>
     CounterDisplay = 0;
 }
 @if(SelectedPrice == "40" || SelectedParts == 40)
@@ -52,7 +52,7 @@
                         CounterDisplay++;
         }    
     }
-    <p>Showing @CounterDisplay $40 Shirts</p>
+    <p>#@CounterDisplay</p>
     CounterDisplay = 0;
 }
 @if(SelectedPrice == "55")
@@ -68,7 +68,7 @@
                         CounterDisplay++;
         }    
     }
-    <p>Showing @CounterDisplay $50 Shirts</p>
+    <p>#@CounterDisplay</p>
     CounterDisplay = 0;
 }
 @code{
