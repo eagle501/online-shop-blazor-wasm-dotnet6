@@ -8,9 +8,13 @@
 @inject CartState CartState
 @inject NavigationManager NavigationManager
 
-
-
-
+<div class="container">
+  <div class="row">
+    <div class="col-md-4 offset-md-4">
+      <img src="Images/Banner/logo_Final.png" class="img-fluid" alt="Logo">
+    </div>
+  </div>
+</div>
 
 <div class="text-center mt-2">
     <p class="payment-light-change">You have @CartState.SelectedItems.Sum(p => p.LargeShrit + p.MediumShrit + p.SmallShrit) item(s) in your cart.</p>
